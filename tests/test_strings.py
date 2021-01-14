@@ -1,10 +1,9 @@
-# -*- coding: utf-8 -*-
-
+import concurrent.futures
+import functools
 import re
 
 import pytest
 
-import decorators
 from democritus_strings import (
     base64_decode,
     base64_encode,
@@ -48,7 +47,6 @@ from democritus_strings import (
     uppercase_first_letter,
     xor,
     lowercase,
-    string_matches,
     text_abbreviate,
     string_has_multiple_consecutive_spaces,
     uppercase,
@@ -84,12 +82,11 @@ from democritus_strings import (
     text_consonant_count,
     string_is_yes,
     string_is_no,
-    string_words,
+    # string_words,
     strings_similarity,
     string_find_between,
     string_remove_non_alpha_numeric_characters,
     sentence_case,
-    _handle_casing,
     string_remove_index,
     string_replace_index,
     unicode_to_ascii,
@@ -101,6 +98,29 @@ from democritus_strings import (
     text_ensure_starts_with,
     string_chars_at_start,
 )
+from democritus_strings.strings import _handle_casing
+
+
+def repeat_concurrently(n: int = 10):
+    """Repeat the decorated function concurrently n times."""
+
+    def actual_decorator(func):
+        @functools.wraps(func)
+        def wrapper(*args, **kwargs):
+            import concurrent.futures
+
+            results = []
+
+            with concurrent.futures.ThreadPoolExecutor() as executor:
+                for i in range(n):
+                    function_submission = executor.submit(func, *args, **kwargs)
+                    results.append(function_submission.result())
+
+            return results
+
+        return wrapper
+
+    return actual_decorator
 
 
 def test_string_chars_at_start_docs_1():
@@ -229,9 +249,9 @@ def test_strings_similarity_1():
     assert result == 0.7692307692307693
 
 
-def test_string_words_1():
-    result = string_words('In the beginning was the Word...')
-    assert result == ['In', 'the', 'beginning', 'was', 'the', 'Word']
+# def test_string_words_1():
+#     result = string_words('In the beginning was the Word...')
+#     assert result == ['In', 'the', 'beginning', 'was', 'the', 'Word']
 
 
 def test_string_is_yes_1():
@@ -373,7 +393,6 @@ def test_indefinite_article_1():
     assert indefinite_article('historian') == 'a'
     assert indefinite_article('turtle') == 'a'
     assert indefinite_article('iguana') == 'an'
-    assert indefinite_article(['historian', 'turtle', 'iguana']) == ['a', 'a', 'an']
 
 
 def test_pluralize_docs_1():
@@ -381,9 +400,7 @@ def test_pluralize_docs_1():
     assert pluralize('Test') == 'Tests'
     assert pluralize('TEST') == 'TESTS'
     assert pluralize('adversary') == 'adversaries'
-    assert pluralize(['test', 'ear', 'skull', 'adversary']) == ['tests', 'ears', 'skulls', 'adversaries']
     assert pluralize('intrusion set') == 'intrusion sets'
-    assert pluralize(['intrusion set', 'testing']) == ['intrusion sets', 'testings']
     assert pluralize('byte') == 'bytes'
     # title-cased words are not pluralized properly (I think because they are considered proper nouns)
     assert pluralize('Adversary') == 'Adversarys'
@@ -393,10 +410,8 @@ def test_pluralize_docs_1():
 def test_singularize_docs_1():
     assert singularize('tests') == 'test'
     assert singularize('adversaries') == 'adversary'
-    assert singularize(['tests', 'ears', 'skulls', 'adversaries']) == ['test', 'ear', 'skull', 'adversary']
     # TODO (nov 2020): this assertion used to work, but is now failing once the is_singular check was added to the singularize function
     # assert singularize('intrusion sets') == 'intrusion set'
-    # assert singularize(['intrusion sets', 'testings']) == ['intrusion set', 'testing']
     assert singularize('elephant') == 'elephant'
 
 
@@ -481,52 +496,12 @@ def test_string_forms_1():
         'uppercaseIndefiniteArticle': 'AN',
     }
 
-    assert string_forms(['dog', 'iguana']) == [
-        {
-            'lowercase': 'dog',
-            'titlecase': 'Dog',
-            'uppercase': 'DOG',
-            'lowercasePlural': 'dogs',
-            'titlecasePlural': 'Dogs',
-            'uppercasePlural': 'DOGS',
-            'kebab_case': 'dog',
-            'kebab_casePlural': 'dogs',
-            'snake_case': 'dog',
-            'snake_casePlural': 'dogs',
-            'camel_case': 'dog',
-            'camel_casePlural': 'dogs',
-            'pascal_case': 'Dog',
-            'pascal_casePlural': 'Dogs',
-            'lowercaseIndefiniteArticle': 'a',
-            'titlecaseIndefiniteArticle': 'A',
-            'uppercaseIndefiniteArticle': 'A',
-        },
-        {
-            'lowercase': 'iguana',
-            'titlecase': 'Iguana',
-            'uppercase': 'IGUANA',
-            'lowercasePlural': 'iguanas',
-            'titlecasePlural': 'Iguanas',
-            'uppercasePlural': 'IGUANAS',
-            'kebab_case': 'iguana',
-            'kebab_casePlural': 'iguanas',
-            'snake_case': 'iguana',
-            'snake_casePlural': 'iguanas',
-            'camel_case': 'iguana',
-            'camel_casePlural': 'iguanas',
-            'pascal_case': 'Iguana',
-            'pascal_casePlural': 'Iguanas',
-            'lowercaseIndefiniteArticle': 'an',
-            'titlecaseIndefiniteArticle': 'An',
-            'uppercaseIndefiniteArticle': 'AN',
-        },
-    ]
-
 
 def test_string_to_number_docs_1():
     assert string_to_number('1') == 1
     assert string_to_number(1) == 1
-    assert string_to_number(['1', '2.0']) == [1, 2.0]
+    assert string_to_number('2.0') == 2.0
+    assert string_to_number(2.0) == 2.0
 
 
 def test_string_to_number_docs_invalid_values():
@@ -720,16 +695,10 @@ def test_string_split_multiple_2():
     results = string_split_multiple(s, '|')
     assert results == ['1 2 3']
 
-    results = string_split_multiple(['1|2', '3|4'], '|')
-    assert results == [['1', '2'], ['3', '4']]
-
 
 def test_uppercase_1():
     result = uppercase('foo bar')
     assert result == 'FOO BAR'
-
-    result = uppercase(['foo', 'bar'])
-    assert result == ['FOO', 'BAR']
 
 
 def test_string_has_multiple_consecutive_spaces_1():
@@ -757,43 +726,23 @@ def test_text_abbreviate_1():
     assert text_abbreviate('Federal_Bureau-ofInvestigation') == 'FBI'
 
 
-def test_string_matches_1():
-    assert string_matches(['foo.*', 'bingo'], 'foobar')
-    assert string_matches(['buz', 'bingo'], 'foobar') == [None, None]
-    assert string_matches(['bingo', 'foo.*'], 'foobar')
-    assert string_matches('foo.*', 'foobar')
-
-
 def test_lowercase_1():
     assert lowercase('ABc') == 'abc'
-    assert lowercase(['a', 'B', 'c', 'D']) == ['a', 'b', 'c', 'd']
-    assert lowercase(('a', 'B', 'c', 'D')) == ['a', 'b', 'c', 'd']
-    # TODO: not sure what is expected behaviour when the lowercase function is given a dictionary
-    # assert lowercase({
-    #     'FOO': 'BAR'
-    # }) == {
-    #     'foo': 'BAR'
-    # }
 
 
 def test_bytes_decode_as_string_1():
     assert bytes_decode_as_string(b'foo') == 'foo'
     assert bytes_decode_as_string(b'bar') == 'bar'
-    assert bytes_decode_as_string([b'foo', b'bar']) == ['foo', 'bar']
-    assert bytes_decode_as_string([b'foo', b'bar'], encoding='latin-1') == ['foo', 'bar']
     assert bytes_decode_as_string('foo') == 'foo'
 
 
 def test_string_encode_as_bytes_1():
     assert string_encode_as_bytes('foo') == b'foo'
     assert string_encode_as_bytes('bar') == b'bar'
-    assert string_encode_as_bytes(['foo', 'bar']) == [b'foo', b'bar']
-    assert string_encode_as_bytes(['foo', 'bar'], encoding='latin-1') == [b'foo', b'bar']
 
 
 def test_character_to_unicode_number_1():
     assert character_to_unicode_number('a') == 97
-    assert character_to_unicode_number(['a', 'b']) == [97, 98]
 
 
 def test_hex_to_string_1():
@@ -809,12 +758,6 @@ def test_hex_to_string_1():
     s = '666f6f 626172'
     assert hex_to_string(s) == 'foobar'
 
-    s = ['66 6f 6f', '62 61 72']
-    assert hex_to_string(s) == ['foo', 'bar']
-
-    s = ['66 6f 6f', '626172']
-    assert hex_to_string(s) == ['foo', 'bar']
-
     s = '\xd0\xb2\xd0\xba'
     assert hex_to_string(s) == 'foobar'
 
@@ -824,12 +767,10 @@ def test_hex_to_string_1():
 
 
 def test_characters_1():
-    assert characters('foobar') == ['f', 'o', 'o', 'b', 'a', 'r']
-    assert characters(['foo', 'bar']) == [['f', 'o', 'o'], ['b', 'a', 'r']]
+    assert characters('foobar') == ('f', 'o', 'o', 'b', 'a', 'r')
 
 
 def test_substrings_1():
-    substrings([1, 2, 3]) == [(0,), (1,), (2,), (0, 1), (1, 2), (0, 1, 2)]
     substrings('more') == ['m', 'o', 'r', 'e', 'mo', 'or', 're', 'mor', 'ore', 'more']
 
 
@@ -908,7 +849,7 @@ def test_strings_longest_matching_block_1():
 
 def test_string_as_numbers():
     assert string_as_numbers('london') == [12, 15, 14, 4, 15, 14]
-    assert string_as_numbers(['london', 'fair']) == [[12, 15, 14, 4, 15, 14], [6, 1, 9, 18]]
+    assert string_as_numbers('fair') == [6, 1, 9, 18]
 
 
 def test_text_join_1():
@@ -926,7 +867,6 @@ def test_string_shorten():
 def test_string_to_hex_1():
     assert string_to_hex('a') == '61'
     assert string_to_hex('test') == '74657374'
-    assert string_to_hex(['a', 'test']) == ['61', '74657374']
     assert string_to_hex('test', seperator=' ') == '74 65 73 74'
 
 
@@ -942,12 +882,12 @@ def test_string_split_without_empty_1():
 
 def test_base64_encode_1():
     assert base64_encode('Hello, world') == 'SGVsbG8sIHdvcmxk'
-    assert base64_encode(['Hello, world', 'ich bin ein mann']) == ['SGVsbG8sIHdvcmxk', 'aWNoIGJpbiBlaW4gbWFubg==']
+    assert base64_encode('ich bin ein mann') == 'aWNoIGJpbiBlaW4gbWFubg=='
 
 
 def test_base64_decode_1():
     assert base64_decode('SGVsbG8sIHdvcmxk') == 'Hello, world'
-    assert base64_decode(['SGVsbG8sIHdvcmxk', 'aWNoIGJpbiBlaW4gbWFubg==']) == ['Hello, world', 'ich bin ein mann']
+    assert base64_decode('aWNoIGJpbiBlaW4gbWFubg==') == 'ich bin ein mann'
     assert (
         base64_decode('R8szXOTyFtDM_Aac-LrgCg').encode('utf-8')
         == b'G\xc3\x8b3\\\xc3\xa4\xc3\xb2\x16\xc3\x90\xc3\x8c\x01\xc2\xa7\x0b\xc2\xae\x00\xc2\xa0'
@@ -956,7 +896,8 @@ def test_base64_decode_1():
 
 def test_letter_as_number_1():
     assert letter_as_number('a') == 1
-    assert letter_as_number(['a', 'b', 'c']) == [1, 2, 3]
+    assert letter_as_number('A') == 1
+    assert letter_as_number('b') == 2
 
 
 def test_from_char_code_1():
@@ -1584,10 +1525,6 @@ def test_from_char_code_1():
 def test_string_rotate_1():
     assert string_rotate('Hello, World!') == 'Uryyb, Jbeyq!'
     assert string_rotate('Gur Mra bs Clguba, ol Gvz Crgref') == 'The Zen of Python, by Tim Peters'
-    assert string_rotate(['Hello, World!', 'Gur Mra bs Clguba, ol Gvz Crgref']) == [
-        'Uryyb, Jbeyq!',
-        'The Zen of Python, by Tim Peters',
-    ]
     assert string_rotate('abc', 0) == 'abc'
     assert string_rotate('abc', 1) == 'bcd'
     assert string_rotate('abc', 12) == 'mno'
@@ -1595,7 +1532,6 @@ def test_string_rotate_1():
     assert string_rotate('abc', 25) == 'zab'
     assert string_rotate('abc', 26) == 'abc'
     assert string_rotate('abc', 27) == 'bcd'
-    assert string_rotate(['abc', 'cde'], 0) == ['abc', 'cde']
 
 
 def test_xor_1():
@@ -1633,10 +1569,6 @@ def test_string_entropy_1():
     assert string_entropy('7&wS/p(') == 2.8073549220576046
     assert string_entropy('in the beginning was the word') == 3.5780011510322707
     assert string_entropy('Ἐν ἀρχῇ ἦν ὁ Λόγος, καὶ ὁ Λόγος ἦν πρὸς τὸν Θεόν, καὶ Θεὸς ἦν ὁ Λόγος.') == 4.105729581348616
-    assert string_entropy(
-        ['Ἐν ἀρχῇ ἦν ὁ Λόγος, καὶ ὁ Λόγος ἦν πρὸς τὸν Θεόν, καὶ Θεὸς ἦν ὁ Λόγος.', 'in the beginning was the word']
-    ) == [4.105729581348616, 3.5780011510322707]
-    assert string_entropy(['abc', 'ABC']) == [1.584962500721156, 1.584962500721156]
 
 
 def test_string_entropy_word_repetition():
@@ -1648,7 +1580,7 @@ def test_string_entropy_word_repetition():
     assert a < b < c < d
 
 
-@decorators.repeat_concurrently(10)
+@repeat_concurrently(10)
 def run_crazy_case_repeatedly():
     s = crazycase('this is a test')
     if uppercase_count(s) > 1 and lowercase_count(s) > 1:
@@ -1673,7 +1605,6 @@ def test_lowercase_count_1():
 
 def test_kebab_case_1():
     assert kebab_case('test ing foo bar') == 'test-ing-foo-bar'
-    assert kebab_case(['test ing foo bar', 'foo bar bing bang']) == ['test-ing-foo-bar', 'foo-bar-bing-bang']
 
 
 def test_snake_case_1():
@@ -1691,7 +1622,6 @@ def test_pascal_case_1():
 def test_unicode_number_to_character_1():
     assert unicode_number_to_character(65) == 'A'
     assert unicode_number_to_character(94) == '^'
-    assert unicode_number_to_character([65, 97]) == ['A', 'a']
 
 
 def test_lowercase_first_letter_1():
@@ -1707,13 +1637,11 @@ def test_uppercase_first_letter_1():
 def test_text_to_leet_speak():
     assert text_to_leet_speak('elite') == '3l1t3'
     assert text_to_leet_speak('foo bar') == 'f00 b4r'
-    assert text_to_leet_speak(['foo bar', 'elite']) == ['f00 b4r', '3l1t3']
 
 
 def test_leet_speak_to_text():
     assert leet_speak_to_text('f00 b4r') == 'foo bar'
     assert leet_speak_to_text('3l1t3') == 'elite'
-    assert leet_speak_to_text(['f00 b4r', '3l1t3']) == ['foo bar', 'elite']
 
 
 def test_string_split_on_uppercase_systematic():
@@ -1774,8 +1702,6 @@ def test_string_split_on_uppercase_1():
     s = 'FoobaR'
     assert string_split_on_uppercase(s) == ['ooba']
 
-    assert string_split_on_uppercase(['FoobaR', 'AbC']) == [['ooba'], ['b']]
-
 
 def test_string_split_on_uppercase_including_uppercase_characters():
     s = 'fooBarTest'
@@ -1789,11 +1715,6 @@ def test_string_split_on_uppercase_including_uppercase_characters():
 
     s = 'FoobaR'
     assert string_split_on_uppercase(s, include_uppercase_characters=True) == ['Fooba', 'R']
-
-    assert string_split_on_uppercase(['FoobaR', 'AbC'], include_uppercase_characters=True) == [
-        ['Fooba', 'R'],
-        ['Ab', 'C'],
-    ]
 
 
 def test_string_split_on_lowercase_1():
@@ -1809,8 +1730,6 @@ def test_string_split_on_lowercase_1():
     s = 'fOOBAr'
     assert string_split_on_lowercase(s) == ['OOBA']
 
-    assert string_split_on_lowercase(['fOOBAr', 'AbC']) == [['OOBA'], ['A', 'C']]
-
 
 def test_string_split_on_lowercase_2():
     s = 'FOObARtEST'
@@ -1825,15 +1744,9 @@ def test_string_split_on_lowercase_2():
     s = 'fOOBAr'
     assert string_split_on_lowercase(s, include_lowercase_characters=True) == ['fOOBA', 'r']
 
-    assert string_split_on_lowercase(['fOOBAr', 'AbC'], include_lowercase_characters=True) == [
-        ['fOOBA', 'r'],
-        ['A', 'bC'],
-    ]
-
 
 def test_string_reverse_case_1():
     assert string_reverse_case('fooBarTest') == 'FOObARtEST'
     assert string_reverse_case('This is a test') == 'tHIS IS A TEST'
     assert string_reverse_case('This is a Test') == 'tHIS IS A tEST'
     assert string_reverse_case('FoobaR') == 'fOOBAr'
-    assert string_reverse_case(['FoobaR', 'fOObAR']) == ['fOOBAr', 'FooBar']

@@ -1,15 +1,12 @@
-import hashlib
-import os
+import re
 import string
-import sys
-from typing import Any, Iterable, Union
+from typing import Any, Iterable, List, Tuple, Union
 import unicodedata
 
-from textblob import TextBlob
+# from textblob import TextBlob
 
-sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '.')))
-import decorators
-from typings import ListOfStrs, TupleOfStrs
+from .strings_temp_utils import deduplicate, shortest
+
 
 # TODO: add a function to get a substring between two given characters
 # TODO: write function to split a given string up into subparts of a given length
@@ -40,30 +37,26 @@ def a10n(string: str) -> str:
 
 def string_remove_index(string: str, index: int) -> str:
     """Remove the item from the string at the given index."""
-    from lists import listify
-
-    string_list = listify(string)
+    string_list = list(string)
     del string_list[index]
     return ''.join(string_list)
 
 
 def string_replace_index(string: str, index: int, replacement: str) -> str:
     """Replace the character in the string at the given index with the replacement."""
-    from lists import listify
-
-    string_list = listify(string)
+    string_list = list(string)
     string_list[index] = replacement
     return ''.join(string_list)
 
 
-def _string_blobify(string: str) -> TextBlob:
-    """Return a textblob for the given string."""
-    return TextBlob(string)
+# def _string_blobify(string: str) -> TextBlob:
+#     """Return a textblob for the given string."""
+#     return TextBlob(string)
 
 
-def string_words(string: str) -> ListOfStrs:
-    blob = _string_blobify(string)
-    return blob.words
+# def string_words(string: str) -> List[str]:
+#     blob = _string_blobify(string)
+#     return blob.words
 
 
 def string_remove_before(string: str, stop_string: str):
@@ -74,10 +67,8 @@ def string_remove_before(string: str, stop_string: str):
 
 def string_remove_after(string: str, start_string: str):
     """Remove everything after the start_string to the end of the given string."""
-    from utility import has_more_than_one_item
-
     split_string = string.split(start_string)
-    if has_more_than_one_item(split_string):
+    if len(split_string) > 1:
         # we have to re-add the start_string to the next-to-last item, otherwise, it will not be included
         split_string[-2] += start_string
     return text_join(start_string, *split_string[:-1])
@@ -94,14 +85,12 @@ def string_reverse(string: str) -> str:
     return string[::-1]
 
 
-@decorators.map_first_arg
 def indefinite_article(word):
     """Return the word with the appropriate indefinite article."""
     inflect_engine = _inflect_engine()
     return inflect_engine.a(word).split(' ')[0]
 
 
-@decorators.map_first_arg
 def is_plural(possible_plural: str) -> bool:
     """Return whether or not the possible_plural is plural."""
     plural = False
@@ -116,7 +105,6 @@ def is_plural(possible_plural: str) -> bool:
     return plural
 
 
-@decorators.map_first_arg
 def pluralize(word: str) -> str:
     """Make the word plural."""
     inflect_engine = _inflect_engine()
@@ -126,7 +114,6 @@ def pluralize(word: str) -> str:
         return inflect_engine.plural(word)
 
 
-@decorators.map_first_arg
 def is_singular(possible_singular: str) -> bool:
     """Return whether or not the possible_singular is singular."""
     # this is a repetition of the code from the is_plural function and does not simply return `not is_plural` because...
@@ -144,7 +131,6 @@ def is_singular(possible_singular: str) -> bool:
     return singular
 
 
-@decorators.map_first_arg
 def singularize(word: str) -> str:
     """Make the word singular."""
     inflect_engine = _inflect_engine()
@@ -154,7 +140,6 @@ def singularize(word: str) -> str:
         return inflect_engine.singular_noun(word)
 
 
-@decorators.map_first_arg
 def cardinalize(word: str, count: int) -> str:
     """Return the appropriate form of the given word for the count."""
     inflect_engine = _inflect_engine()
@@ -167,14 +152,12 @@ def cardinalize(word: str, count: int) -> str:
     return inflect_engine.singular_noun(word, count=count)
 
 
-@decorators.map_first_arg
 def ordinalize(number: int) -> str:
     """Return the appropriate form for the ordinal form of the given number."""
     inflect_engine = _inflect_engine()
     return inflect_engine.ordinal(number)
 
 
-@decorators.map_first_arg
 def string_forms(text):
     """Return multiple forms for the given text."""
     # it is important to lowercase the text before we start so that we can avoid problems when making the text plural
@@ -212,7 +195,6 @@ def _inflect_engine():
     return p
 
 
-@decorators.map_first_arg
 def string_to_number(string: str) -> Union[int, float]:
     """Convert a number as a string into either an integer or float."""
     if not isinstance(string, str):
@@ -257,7 +239,7 @@ def text_examples(n=10):
     """Create n example texts."""
     from hypothesis.strategies import text
 
-    from hypothesis_data import hypothesis_get_strategy_results
+    from democritus_hypothesis import hypothesis_get_strategy_results
 
     return hypothesis_get_strategy_results(text, n=n)
 
@@ -265,7 +247,7 @@ def text_examples(n=10):
 def string_has_multiple_consecutive_spaces(string):
     """Return True if the given string has multiple, consecutive spaces."""
     pattern = '.*  +.*'
-    match_result = string_matches(pattern, string)
+    match_result = re.match(pattern, string)
     return bool(match_result)
 
 
@@ -273,7 +255,7 @@ def character_examples(n=10):
     """Create n example characters."""
     from hypothesis.strategies import characters
 
-    from hypothesis_data import hypothesis_get_strategy_results
+    from democritus_hypothesis import hypothesis_get_strategy_results
 
     return hypothesis_get_strategy_results(characters, n=n)
 
@@ -351,7 +333,6 @@ def string_insert(existing_string, new_string, index):
     return complete_string
 
 
-@decorators.map_first_arg
 def base64_encode(input_string):
     """Base64 encode the string."""
     import base64
@@ -359,7 +340,6 @@ def base64_encode(input_string):
     return bytes_decode_as_string(base64.b64encode(string_encode_as_bytes(input_string)))
 
 
-@decorators.map_first_arg
 def base64_decode(input_string):
     """Base64 decode the string."""
     import base64
@@ -391,10 +371,8 @@ def strings_diff(string_a, string_b):
 
 def string_add_to_start_of_each_line(string: str, string_to_add_to_each_line: str):
     """Add the given string_to_add_to_each_line to the beginning of each line in the string."""
-    from regexes import replace
-
     replacement = f'\n{string_to_add_to_each_line}'
-    string_with_added_value = replace('\n', replacement, string)
+    string_with_added_value = re.sub('\n', replacement, string)
     return string_with_added_value
 
 
@@ -440,11 +418,9 @@ def strings_diff_opcodes(a: str, b: str):
 
 def string_common_prefix(a: str, b: str) -> str:
     """Returns the common prefix string from left to right between a and b."""
-    from lists import list_shortest_item
-
     common_prefix = ''
 
-    for index in range(len(list_shortest_item([a, b]))):
+    for index in range(len(shortest([a, b]))):
         if a[index] == b[index]:
             common_prefix += a[index]
         else:
@@ -458,23 +434,11 @@ def string_common_suffix(a: str, b: str):
     return string_reverse(string_common_prefix(string_reverse(a), string_reverse(b)))
 
 
-@decorators.map_first_arg
-def string_matches(regex, input_string):
-    """See if the input_string matches the given regex."""
-    import re
-
-    return re.match(regex, input_string)
-
-
-@decorators.map_first_arg
 def characters(input_string):
     """Return all of the characters in the given string."""
-    from lists import listify
-
-    return listify(input_string)
+    return tuple(input_string)
 
 
-@decorators.map_first_arg
 def hex_to_string(hex_string):
     """Convert the given hex string to ascii."""
 
@@ -498,7 +462,6 @@ def hex_to_string(hex_string):
             raise e
 
 
-@decorators.map_first_arg
 def string_to_hex(ascii_string: str, seperator='') -> str:
     """Convert the given ascii string to hex."""
     hex_string = ''
@@ -508,13 +471,11 @@ def string_to_hex(ascii_string: str, seperator='') -> str:
     return hex_string
 
 
-@decorators.map_first_arg
 def character_to_unicode_number(character):
     """Convert the given character to its Unicode number. This is the same as the `ord` function in python."""
     return ord(character)
 
 
-@decorators.map_first_arg
 def unicode_number_to_character(unicode_number):
     """Convert the given unicode_number to it's unicode character form. This is the same as the `chr` function in python."""
     return chr(unicode_number)
@@ -540,20 +501,19 @@ def from_char_code(integer_list):
     return ''.join([chr(int(integer)) for integer in integer_list])
 
 
-def text_ascii_characters(text: str) -> TupleOfStrs:
+def text_ascii_characters(text: str) -> Tuple[str]:
     """."""
     ascii_chars = [char for char in characters(text) if char.isascii()]
     return ascii_chars
 
 
-def text_non_ascii_characters(text: str) -> TupleOfStrs:
+def text_non_ascii_characters(text: str) -> Tuple[str]:
     """."""
     non_ascii_chars = [char for char in characters(text) if not char.isascii()]
     return non_ascii_chars
 
 
 # TODO: rename this function
-@decorators.map_first_arg
 def letter_as_number(letter):
     """."""
     return string.ascii_lowercase.index(lowercase(letter)) + 1
@@ -564,16 +524,14 @@ def letter_frequency(letter, text):
     return text.count(letter) / len(text)
 
 
-@decorators.map_first_arg
 def string_entropy(text, ignore_case=False):
     """Find the shannon entropy of the text. Inspired by the algorithm here https://web.archive.org/web/20160320142455/https://deadhacker.com/2007/05/13/finding-entropy-in-binary-files/. You can see more here: https://en.wikipedia.org/wiki/Entropy_(information_theory)"""
     import math
-    from lists import list_deduplicate
 
     if ignore_case:
         text = text.lower()
 
-    character_code_set = list_deduplicate([ord(char) for char in text])
+    character_code_set = deduplicate([ord(char) for char in text])
 
     if not text:
         return 0
@@ -611,9 +569,7 @@ def string_remove_non_alpha_numeric_characters(string: str):
 
 def string_remove(regex_pattern, input_string, **kwargs):
     """Remove the regex_pattern from the input_string."""
-    from regexes import replace
-
-    string_after_removal = replace(regex_pattern, '', input_string, **kwargs)
+    string_after_removal = re.sub(regex_pattern, '', input_string, **kwargs)
     return string_after_removal
 
 
@@ -625,12 +581,9 @@ def string_remove_unicode(string: str):
     return string_with_unicode_removed
 
 
-@decorators.map_first_arg
 def string_remove_numbers(input_string: str, replacement: str = ' '):
     """Remove all numbers from the input_strings."""
-    from regexes import replace
-
-    new_string_without_numbers = replace('\d+', replacement, input_string)
+    new_string_without_numbers = re.sub('\d+', replacement, input_string)
     return new_string_without_numbers
 
 
@@ -653,7 +606,6 @@ def string_remove_from_end(input_string, string_to_remove):
         return input_string
 
 
-@decorators.map_first_arg
 def string_as_numbers(input_string: str):
     """."""
     character_list = list(input_string)
@@ -686,7 +638,7 @@ def string_find_between(input_string: str, start_string: str, end_string: str, *
 
 def switch(a, b, text):
     """Switch a and b in the text."""
-    from uuids import uuid4
+    from democritus_uuids import uuid4
 
     a_replacement = str(uuid4())
     b_replacement = str(uuid4())
@@ -700,7 +652,6 @@ def switch(a, b, text):
     return text
 
 
-@decorators.map_first_arg
 def string_encode_as_bytes(input_string, encoding='utf-8', **kwargs):
     if isinstance(input_string, str):
         return input_string.encode(encoding, **kwargs)
@@ -708,7 +659,6 @@ def string_encode_as_bytes(input_string, encoding='utf-8', **kwargs):
         return input_string
 
 
-@decorators.map_first_arg
 def bytes_decode_as_string(bytes_text, encoding='utf-8', **kwargs):
     if isinstance(bytes_text, bytes):
         return bytes_text.decode(encoding, **kwargs)
@@ -740,7 +690,6 @@ def string_has_index(string: str, index: Union[str, int]) -> bool:
     return has_index
 
 
-@decorators.map_first_arg
 def string_split_on_uppercase(input_string: str, include_uppercase_characters=False, split_acronyms=True):
     """Split the input_string on uppercase characters. If split_acronyms is False, the function will not split consecutive uppercase letters."""
     from lists import list_delete_empty_items
@@ -778,7 +727,6 @@ def string_split_on_uppercase(input_string: str, include_uppercase_characters=Fa
     return list_delete_empty_items(split_string)
 
 
-@decorators.map_first_arg
 def string_split_on_lowercase(input_string, include_lowercase_characters=False):
     """Split the string on lowercase characters."""
     from lists import list_delete_empty_items
@@ -803,7 +751,6 @@ def string_split_on_lowercase(input_string, include_lowercase_characters=False):
     return list_delete_empty_items(split_string)
 
 
-@decorators.map_first_arg
 def string_split_multiple(string, *splitting_characters):
     """Split a string up based on multiple splitting_characters."""
     split_strings = []
@@ -825,7 +772,6 @@ def string_split_multiple(string, *splitting_characters):
     return split_strings
 
 
-@decorators.map_first_arg
 def string_reverse_case(input_string):
     """Make lowercase characters uppercased and visa-versa."""
     string_list = []
@@ -901,29 +847,24 @@ def text_ensure_ends_with(text: str, suffix: str):
         return '{}{}'.format(text, suffix)
 
 
-@decorators.map_first_arg
 def titlecase(item):
     return _handle_casing(item, 'title')
 
 
-@decorators.map_first_arg
 def uppercase(item):
     return _handle_casing(item, 'upper')
 
 
-@decorators.map_first_arg
 def uppercase_first_letter(text):
     """Make the first letter of the text uppercase."""
     return '{}{}'.format(text[0].upper(), text[1:])
 
 
-@decorators.map_first_arg
 def lowercase_first_letter(text):
     """Make the first letter of the text lowercase."""
     return '{}{}'.format(text[0].lower(), text[1:])
 
 
-@decorators.map_first_arg
 def crazycase(text):
     """Make the case of the characters in the given text pseudo-random"""
     from random_wrapper import random_choice
@@ -940,7 +881,6 @@ def crazycase(text):
     return new_text
 
 
-@decorators.map_first_arg
 def kebab_case(text):
     """Return the text with a "-" in place of every space."""
     text = text.replace(' ', '-')
@@ -949,7 +889,6 @@ def kebab_case(text):
     return text
 
 
-@decorators.map_first_arg
 def snake_case(text):
     """Return the text with a "_" in place of every space."""
     text = text.replace(' ', '_')
@@ -958,51 +897,44 @@ def snake_case(text):
     return text
 
 
-@decorators.map_first_arg
 def camel_case(text: str):
     """Return the text with no spaces and every word (except the first one) capitalized."""
     text = text.replace('-', ' ')
     text = text.replace('_', ' ')
-    text_list = titlecase(text.split())
-    text_list[0] = lowercase(text_list[0])
+    text_list = [word.title() for word in text.split()]
+    text_list[0] = text_list[0].lower()
 
     return ''.join(text_list)
 
 
-@decorators.map_first_arg
 def pascal_case(text: str):
     """Return the text with no spaces and every word capitalized."""
-    text_list = titlecase(text.split())
+    text_list = [word.title() for word in text.split()]
 
     return ''.join(text_list)
 
 
-@decorators.map_first_arg
 def sentence_case(text: str):
     """."""
     # TODO: does this already exist?
     raise NotImplementedError
 
 
-@decorators.map_first_arg
 def uppercase_count(text):
     """Count the number of uppercase letters in the given text."""
     return sum([1 for char in text if char.isupper()])
 
 
-@decorators.map_first_arg
 def lowercase_count(text):
     """Count the number of lowercase letters in the given text."""
     return sum([1 for char in text if char.islower()])
 
 
-@decorators.map_first_arg
 def lowercase(item):
     return _handle_casing(item, 'lower')
 
 
 # TODO: we should be able to validate the values of the `casing` argument
-@decorators.map_first_arg
 def _handle_casing(item, casing):
     available_casing_types = ('lower', 'title', 'upper')
     if casing not in available_casing_types:
@@ -1017,7 +949,6 @@ def _handle_casing(item, casing):
         return item
 
 
-@decorators.map_first_arg
 def string_rotate(text, rot=13):
     """Return the text converted using a Caesar cipher (https://en.wikipedia.org/wiki/Caesar_cipher) in which the text is rotated by the given amount (using the `rot` argument)."""
     # credit for the algorithm: https://github.com/python/cpython/blob/master/Lib/this.py
@@ -1042,7 +973,6 @@ def text_is_english_sentence(text: str) -> bool:
 LEET_SPEAK_CONVERSIONS = {'1': 'i', '3': 'e', '4': 'a', '5': 's', '9': 'g', '0': 'o'}
 
 
-@decorators.map_first_arg
 def leet_speak_to_text(leet_speak_text):
     """."""
     translated_text = ''
@@ -1053,7 +983,6 @@ def leet_speak_to_text(leet_speak_text):
     return translated_text
 
 
-@decorators.map_first_arg
 def text_to_leet_speak(text):
     """."""
     from dicts import dict_flip, dict_delistify_values
