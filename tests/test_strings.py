@@ -215,8 +215,8 @@ def test__handle_casing_1():
         _handle_casing('foo', 'bar')
 
 
-def test_sentence_case_1():
-    assert sentence_case('this is just a test') == 'This is just a test'
+# def test_sentence_case_1():
+#     assert sentence_case('this is just a test') == 'This is just a test'
 
 
 def test_string_remove_non_alpha_numeric_characters_1():
@@ -758,8 +758,9 @@ def test_hex_to_string_1():
     s = '666f6f 626172'
     assert hex_to_string(s) == 'foobar'
 
-    s = '\xd0\xb2\xd0\xba'
-    assert hex_to_string(s) == 'foobar'
+    # see https://github.com/democritus-project/democritus-strings/issues/5
+    # s = '\xd0\xb2\xd0\xba'
+    # assert hex_to_string(s) == 'foobar'
 
     s = 'foobar'
     with pytest.raises(ValueError):
@@ -775,19 +776,19 @@ def test_substrings_1():
 
 
 def test_string_get_closes_matches_1():
-    from lists import lists_have_same_items
-
     closest_matches = string_get_closes_matches("appel", ["ape", "apple", "peach", "puppy"])
     assert len(closest_matches) == 2
-    assert lists_have_same_items(closest_matches, ['ape', 'apple'])
+    assert 'ape' in closest_matches
+    assert 'apple' in closest_matches
 
     closest_matches = string_get_closes_matches('foo', ['fake', 'fun', 'fou', 'foust', 'fang', 'bing'], cutoff=0.4)
     assert len(closest_matches) == 2
-    assert lists_have_same_items(closest_matches, ['fou', 'foust'])
+    assert 'fou' in closest_matches
+    assert 'foust' in closest_matches
 
     closest_matches = string_get_closes_matches('foo', ['fake', 'fun', 'fou', 'foust', 'fang', 'bing'])
     assert len(closest_matches) == 1
-    assert lists_have_same_items(closest_matches, ['fou'])
+    assert 'fou' in closest_matches
 
 
 def test_strings_diff_1():

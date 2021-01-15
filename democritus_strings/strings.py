@@ -5,8 +5,6 @@ import unicodedata
 
 # from textblob import TextBlob
 
-from .strings_temp_utils import deduplicate, shortest
-
 
 # TODO: add a function to get a substring between two given characters
 # TODO: write function to split a given string up into subparts of a given length
@@ -212,7 +210,7 @@ def string_to_number(string: str) -> Union[int, float]:
 
 def string_left_pad(string, length: int, *, padding_characters=' '):
     """Pad the given string with the given padding_characters such that the length of the resulting string is equal to the `length` argument. Adapted from the javascript code here: https://www.theregister.co.uk/2016/03/23/npm_left_pad_chaos/."""
-    from maths import number_evenly_divides
+    from .strings_temp_utils import number_evenly_divides
 
     padding_length = length - len(string)
 
@@ -305,14 +303,14 @@ def string_is_no(string):
 def xor(message, key):
     """."""
     # credits for inspiration to https://stackoverflow.com/a/25475760 and https://en.wikipedia.org/wiki/XOR_cipher#Example_implementation
-    from lists import list_cycle
+    from itertools import cycle
 
     if isinstance(message, str):
         # Text strings contain single characters
-        return "".join(chr(ord(a) ^ ord(b)) for a, b in zip(message, list_cycle(key)))
+        return "".join(chr(ord(a) ^ ord(b)) for a, b in zip(message, cycle(key)))
     else:
         # Python 3 bytes objects contain integer values in the range 0-255
-        return bytes_decode_as_string(bytes([a ^ b for a, b in zip(message, list_cycle(key))]))
+        return bytes_decode_as_string(bytes([a ^ b for a, b in zip(message, cycle(key))]))
 
 
 def text_join(join_character, *args):
@@ -418,6 +416,8 @@ def strings_diff_opcodes(a: str, b: str):
 
 def string_common_prefix(a: str, b: str) -> str:
     """Returns the common prefix string from left to right between a and b."""
+    from .strings_temp_utils import shortest
+
     common_prefix = ''
 
     for index in range(len(shortest([a, b]))):
@@ -441,25 +441,9 @@ def characters(input_string):
 
 def hex_to_string(hex_string):
     """Convert the given hex string to ascii."""
-
     hex_string = hex_string.replace('0x', '').replace(',', '').replace(' ', '')
 
-    try:
-        return bytes_decode_as_string(bytes.fromhex(hex_string), 'latin-1')
-    except ValueError as e:
-        # if there is an error because one of the characters is not a valid hex number, remove that character and try again
-        if 'non-hexadecimal number found in fromhex() arg' in str(e):
-            # find the character (the one is not a proper hex value)
-            offending_character_index = int(str(e).split(' ')[-1])
-            print(
-                'The "{}" character is not a valid hex character and will be removed.'.format(
-                    hex_string[offending_character_index]
-                )
-            )
-            hex_string = hex_string.replace(hex_string[offending_character_index], ' ')
-            return hex_to_string(hex_string)
-        else:
-            raise e
+    return bytes_decode_as_string(bytes.fromhex(hex_string), 'latin-1')
 
 
 def string_to_hex(ascii_string: str, seperator='') -> str:
@@ -483,7 +467,7 @@ def unicode_number_to_character(unicode_number):
 
 def hamming_distance(string_1, string_2, as_percent=False):
     """Return the number of positions at which corresponding symbols in string_1 and string_2 are different (this is known as the Hamming Distance). See https://en.wikipedia.org/wiki/Hamming_distance."""
-    from maths import percent
+    from .strings_temp_utils import percent
 
     if len(string_1) != len(string_2):
         raise ValueError('The length of the two strings must be the same')
@@ -527,6 +511,8 @@ def letter_frequency(letter, text):
 def string_entropy(text, ignore_case=False):
     """Find the shannon entropy of the text. Inspired by the algorithm here https://web.archive.org/web/20160320142455/https://deadhacker.com/2007/05/13/finding-entropy-in-binary-files/. You can see more here: https://en.wikipedia.org/wiki/Entropy_(information_theory)"""
     import math
+
+    from .strings_temp_utils import deduplicate
 
     if ignore_case:
         text = text.lower()
@@ -626,10 +612,8 @@ def string_in_iterable_fuzzy(input_string, iterable):
 # TODO: I'd like to improve this function to offer more granularity (e.g. offer a flag whether or not the match should be greedy)
 def string_find_between(input_string: str, start_string: str, end_string: str, *args):
     """Find the string in the input_string that is between the start_string and the end_string."""
-    from regexes import regex_escape, find
-
-    regex = f'{regex_escape(start_string)}(.*){regex_escape(end_string)}'
-    result = find(regex, input_string, *args)
+    regex = f'{re.escape(start_string)}(.*){re.escape(end_string)}'
+    result = re.findall(regex, input_string, *args)
     if result:
         return result[0]
     else:
@@ -676,14 +660,14 @@ def string_shorten(input_string, length, suffix='...'):
 
 def string_split_without_empty(input_string, split_char):
     """Split a input_string on split_char and remove empty entries."""
-    from lists import list_delete_empty_items
+    from .strings_temp_utils import list_delete_empty_items
 
     return list_delete_empty_items(input_string.split(split_char))
 
 
 def string_has_index(string: str, index: Union[str, int]) -> bool:
     """."""
-    from lists import list_has_index
+    from .strings_temp_utils import list_has_index
 
     string_characters = characters(string)
     has_index = list_has_index(string_characters, index)
@@ -692,7 +676,7 @@ def string_has_index(string: str, index: Union[str, int]) -> bool:
 
 def string_split_on_uppercase(input_string: str, include_uppercase_characters=False, split_acronyms=True):
     """Split the input_string on uppercase characters. If split_acronyms is False, the function will not split consecutive uppercase letters."""
-    from lists import list_delete_empty_items
+    from .strings_temp_utils import list_delete_empty_items
 
     if not split_acronyms and not include_uppercase_characters:
         message = 'If you set the `split_acronyms` to False when calling the `string_split_on_uppercase` function, you must also set the `include_uppercase_characters` (which you did not). The function will continue, but the `split_acronyms` argument will make no difference.'
@@ -729,7 +713,7 @@ def string_split_on_uppercase(input_string: str, include_uppercase_characters=Fa
 
 def string_split_on_lowercase(input_string, include_lowercase_characters=False):
     """Split the string on lowercase characters."""
-    from lists import list_delete_empty_items
+    from .strings_temp_utils import list_delete_empty_items
 
     split_string = []
     last_lowercase_character_index = 0
@@ -867,14 +851,14 @@ def lowercase_first_letter(text):
 
 def crazycase(text):
     """Make the case of the characters in the given text pseudo-random"""
-    from random_wrapper import random_choice
+    import random
 
     new_text = ''
 
     for character in text:
         if character in string.ascii_letters:
             casing_options = (lowercase, uppercase)
-            casing_action = random_choice(casing_options)
+            casing_action = random.choice(casing_options)
             character = casing_action(character)
         new_text += character
 
@@ -985,7 +969,7 @@ def leet_speak_to_text(leet_speak_text):
 
 def text_to_leet_speak(text):
     """."""
-    from dicts import dict_flip, dict_delistify_values
+    from .strings_temp_utils import dict_flip, dict_delistify_values
 
     conversion_dict = dict_flip(LEET_SPEAK_CONVERSIONS)
     conversion_dict = dict_delistify_values(conversion_dict)
