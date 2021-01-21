@@ -1,6 +1,6 @@
-democritus-hypothesis @ git+https://github.com/democritus-project/democritus-hypothesis.git#egg=democritus-hypothesis
-democritus-uuids @ git+https://github.com/democritus-project/democritus-uuids.git#egg=democritus-uuids
+democritus-hypothesis
+democritus-uuids
 hypothesis
+importlib-metadata; python_version < '3.8'
 inflect
 more_itertools
-importlib-metadata; python_version < '3.8'
