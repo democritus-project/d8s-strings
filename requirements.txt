@@ -3,3 +3,4 @@ democritus-uuids @ git+https://github.com/democritus-project/democritus-uuids.gi
 hypothesis
 inflect
 more_itertools
+importlib-metadata; python_version < '3.8'
