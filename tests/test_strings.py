@@ -60,7 +60,6 @@ from democritus_strings import (
     string_add_to_start_of_each_line,
     string_insert,
     string_to_bool,
-    string_to_number,
     string_forms,
     indefinite_article,
     pluralize,
@@ -495,18 +494,6 @@ def test_string_forms_1():
         'titlecaseIndefiniteArticle': 'An',
         'uppercaseIndefiniteArticle': 'AN',
     }
-
-
-def test_string_to_number_docs_1():
-    assert string_to_number('1') == 1
-    assert string_to_number(1) == 1
-    assert string_to_number('2.0') == 2.0
-    assert string_to_number(2.0) == 2.0
-
-
-def test_string_to_number_docs_invalid_values():
-    with pytest.raises(RuntimeError):
-        string_to_number('foo')
 
 
 def test_string_to_bool_1():

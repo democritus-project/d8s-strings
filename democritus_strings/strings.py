@@ -193,21 +193,6 @@ def _inflect_engine():
     return p
 
 
-def string_to_number(string: str) -> Union[int, float]:
-    """Convert a number as a string into either an integer or float."""
-    if not isinstance(string, str):
-        return string
-
-    try:
-        return int(string)
-    except ValueError:
-        try:
-            return float(string)
-        except ValueError:
-            message = f'Unable to convert {string} to a number.'
-            raise RuntimeError(message)
-
-
 def string_left_pad(string, length: int, *, padding_characters=' '):
     """Pad the given string with the given padding_characters such that the length of the resulting string is equal to the `length` argument. Adapted from the javascript code here: https://www.theregister.co.uk/2016/03/23/npm_left_pad_chaos/."""
     from .strings_temp_utils import number_evenly_divides
