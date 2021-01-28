@@ -379,13 +379,13 @@ def test_string_remove_unicode_1():
 
 
 def test_text_ascii_characters_1():
-    results = text_ascii_characters('τεστtest')
-    assert results == ['t', 'e', 's', 't']
+    results = tuple(text_ascii_characters('τεστtest'))
+    assert results == ('t', 'e', 's', 't')
 
 
 def test_text_non_ascii_characters_1():
-    results = text_non_ascii_characters('τεστtest')
-    assert results == ['τ', 'ε', 'σ', 'τ']
+    results = tuple(text_non_ascii_characters('τεστtest'))
+    assert results == ('τ', 'ε', 'σ', 'τ')
 
 
 def test_indefinite_article_1():

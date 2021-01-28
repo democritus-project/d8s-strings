@@ -1,5 +1,6 @@
 import re
 import string
+import sys
 from typing import Any, Iterable, List, Tuple, Union
 import unicodedata
 
@@ -8,6 +9,8 @@ import unicodedata
 
 # TODO: add a function to get a substring between two given characters
 # TODO: write function to split a given string up into subparts of a given length
+
+NO_ISASCII_AVAILABLE = sys.version_info.major == 3 and sys.version_info.minor <= 6
 
 
 def string_chars_at_start(string: str, chars: Iterable) -> Iterable[str]:
@@ -472,14 +475,34 @@ def from_char_code(integer_list):
 
 def text_ascii_characters(text: str) -> Tuple[str]:
     """."""
-    ascii_chars = [char for char in characters(text) if char.isascii()]
-    return ascii_chars
+    if NO_ISASCII_AVAILABLE:
+        for char in text:
+            try:
+                char.encode('ascii')
+            except UnicodeEncodeError:
+                pass  # string is not ascii
+            else:
+                yield char  # string is ascii
+    else:
+        for char in text:
+            if char.isascii():
+                yield char
 
 
 def text_non_ascii_characters(text: str) -> Tuple[str]:
     """."""
-    non_ascii_chars = [char for char in characters(text) if not char.isascii()]
-    return non_ascii_chars
+    if NO_ISASCII_AVAILABLE:
+        for char in text:
+            try:
+                char.encode('ascii')
+            except UnicodeEncodeError:
+                yield char  # string is not ascii
+            else:
+                pass  # string is ascii
+    else:
+        for char in text:
+            if not char.isascii():
+                yield char
 
 
 # TODO: rename this function
