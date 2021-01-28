@@ -1,0 +1,1454 @@
+{
+    "functions": [
+        {
+            "name": "string_chars_at_start",
+            "docstring": ".",
+            "signature": "(string: str, chars: Iterable) -> Iterable[str]",
+            "examples": [
+                "def test_string_chars_at_start_docs_1():\n    result = string_chars_at_start('foobar', 'foo')\n    assert list(result) == ['f', 'o', 'o']\n\n    result = string_chars_at_start('foobar', 'fo')\n    assert list(result) == ['f', 'o', 'o']\n\n    result = string_chars_at_start('foobar', 'f')\n    assert list(result) == ['f']\n\n    result = string_chars_at_start('foobar', 'o')\n    assert list(result) == []"
+            ],
+            "changes": [
+                {
+                    "date": "2021-01-27",
+                    "type": "addition",
+                    "note": "Documentation for the democritus_strings module created."
+                }
+            ],
+            "exceptions": []
+        },
+        {
+            "name": "string_chars_at_start_len",
+            "docstring": ".",
+            "signature": "(string: str, chars: Iterable) -> int",
+            "examples": [],
+            "changes": [
+                {
+                    "date": "2021-01-27",
+                    "type": "addition",
+                    "note": "Documentation for the democritus_strings module created."
+                }
+            ],
+            "exceptions": []
+        },
+        {
+            "name": "a10n",
+            "docstring": ".",
+            "signature": "(string: str) -> str",
+            "examples": [],
+            "changes": [
+                {
+                    "date": "2021-01-27",
+                    "type": "addition",
+                    "note": "Documentation for the democritus_strings module created."
+                }
+            ],
+            "exceptions": []
+        },
+        {
+            "name": "string_remove_index",
+            "docstring": "Remove the item from the string at the given index.",
+            "signature": "(string: str, index: int) -> str",
+            "examples": [],
+            "changes": [
+                {
+                    "date": "2021-01-27",
+                    "type": "addition",
+                    "note": "Documentation for the democritus_strings module created."
+                }
+            ],
+            "exceptions": []
+        },
+        {
+            "name": "string_replace_index",
+            "docstring": "Replace the character in the string at the given index with the replacement.",
+            "signature": "(string: str, index: int, replacement: str) -> str",
+            "examples": [],
+            "changes": [
+                {
+                    "date": "2021-01-27",
+                    "type": "addition",
+                    "note": "Documentation for the democritus_strings module created."
+                }
+            ],
+            "exceptions": []
+        },
+        {
+            "name": "string_remove_before",
+            "docstring": "Remove everything from the start of the given string until the stop_string.",
+            "signature": "(string: str, stop_string: str)",
+            "examples": [],
+            "changes": [
+                {
+                    "date": "2021-01-27",
+                    "type": "addition",
+                    "note": "Documentation for the democritus_strings module created."
+                }
+            ],
+            "exceptions": []
+        },
+        {
+            "name": "string_remove_after",
+            "docstring": "Remove everything after the start_string to the end of the given string.",
+            "signature": "(string: str, start_string: str)",
+            "examples": [],
+            "changes": [
+                {
+                    "date": "2021-01-27",
+                    "type": "addition",
+                    "note": "Documentation for the democritus_strings module created."
+                }
+            ],
+            "exceptions": []
+        },
+        {
+            "name": "string_is_palindrome",
+            "docstring": "Return whether or not the given string is a palindrome.",
+            "signature": "(string: str) -> bool",
+            "examples": [],
+            "changes": [
+                {
+                    "date": "2021-01-27",
+                    "type": "addition",
+                    "note": "Documentation for the democritus_strings module created."
+                }
+            ],
+            "exceptions": []
+        },
+        {
+            "name": "string_reverse",
+            "docstring": "Reverse the given string.",
+            "signature": "(string: str) -> str",
+            "examples": [],
+            "changes": [
+                {
+                    "date": "2021-01-27",
+                    "type": "addition",
+                    "note": "Documentation for the democritus_strings module created."
+                }
+            ],
+            "exceptions": []
+        },
+        {
+            "name": "indefinite_article",
+            "docstring": "Return the word with the appropriate indefinite article.",
+            "signature": "(word)",
+            "examples": [],
+            "changes": [
+                {
+                    "date": "2021-01-27",
+                    "type": "addition",
+                    "note": "Documentation for the democritus_strings module created."
+                }
+            ],
+            "exceptions": []
+        },
+        {
+            "name": "is_plural",
+            "docstring": "Return whether or not the possible_plural is plural.",
+            "signature": "(possible_plural: str) -> bool",
+            "examples": [],
+            "changes": [
+                {
+                    "date": "2021-01-27",
+                    "type": "addition",
+                    "note": "Documentation for the democritus_strings module created."
+                }
+            ],
+            "exceptions": []
+        },
+        {
+            "name": "pluralize",
+            "docstring": "Make the word plural.",
+            "signature": "(word: str) -> str",
+            "examples": [
+                "def test_pluralize_docs_1():\n    assert pluralize('test') == 'tests'\n    assert pluralize('Test') == 'Tests'\n    assert pluralize('TEST') == 'TESTS'\n    assert pluralize('adversary') == 'adversaries'\n    assert pluralize('intrusion set') == 'intrusion sets'\n    assert pluralize('byte') == 'bytes'\n    # title-cased words are not pluralized properly (I think because they are considered proper nouns)\n    assert pluralize('Adversary') == 'Adversarys'\n    assert pluralize('elephants') == 'elephants'"
+            ],
+            "changes": [
+                {
+                    "date": "2021-01-27",
+                    "type": "addition",
+                    "note": "Documentation for the democritus_strings module created."
+                }
+            ],
+            "exceptions": []
+        },
+        {
+            "name": "is_singular",
+            "docstring": "Return whether or not the possible_singular is singular.",
+            "signature": "(possible_singular: str) -> bool",
+            "examples": [],
+            "changes": [
+                {
+                    "date": "2021-01-27",
+                    "type": "addition",
+                    "note": "Documentation for the democritus_strings module created."
+                }
+            ],
+            "exceptions": []
+        },
+        {
+            "name": "singularize",
+            "docstring": "Make the word singular.",
+            "signature": "(word: str) -> str",
+            "examples": [
+                "def test_singularize_docs_1():\n    assert singularize('tests') == 'test'\n    assert singularize('adversaries') == 'adversary'\n    # TODO (nov 2020): this assertion used to work, but is now failing once the is_singular check was added to the singularize function\n    # assert singularize('intrusion sets') == 'intrusion set'\n    assert singularize('elephant') == 'elephant'"
+            ],
+            "changes": [
+                {
+                    "date": "2021-01-27",
+                    "type": "addition",
+                    "note": "Documentation for the democritus_strings module created."
+                }
+            ],
+            "exceptions": []
+        },
+        {
+            "name": "cardinalize",
+            "docstring": "Return the appropriate form of the given word for the count.",
+            "signature": "(word: str, count: int) -> str",
+            "examples": [],
+            "changes": [
+                {
+                    "date": "2021-01-27",
+                    "type": "addition",
+                    "note": "Documentation for the democritus_strings module created."
+                }
+            ],
+            "exceptions": []
+        },
+        {
+            "name": "ordinalize",
+            "docstring": "Return the appropriate form for the ordinal form of the given number.",
+            "signature": "(number: int) -> str",
+            "examples": [],
+            "changes": [
+                {
+                    "date": "2021-01-27",
+                    "type": "addition",
+                    "note": "Documentation for the democritus_strings module created."
+                }
+            ],
+            "exceptions": []
+        },
+        {
+            "name": "string_forms",
+            "docstring": "Return multiple forms for the given text.",
+            "signature": "(text)",
+            "examples": [],
+            "changes": [
+                {
+                    "date": "2021-01-27",
+                    "type": "addition",
+                    "note": "Documentation for the democritus_strings module created."
+                }
+            ],
+            "exceptions": []
+        },
+        {
+            "name": "string_to_number",
+            "docstring": "Convert a number as a string into either an integer or float.",
+            "signature": "(string: str) -> Union[int, float]",
+            "examples": [
+                "def test_string_to_number_docs_1():\n    assert string_to_number('1') == 1\n    assert string_to_number(1) == 1\n    assert string_to_number('2.0') == 2.0\n    assert string_to_number(2.0) == 2.0",
+                "def test_string_to_number_docs_invalid_values():\n    with pytest.raises(RuntimeError):\n        string_to_number('foo')"
+            ],
+            "changes": [
+                {
+                    "date": "2021-01-27",
+                    "type": "addition",
+                    "note": "Documentation for the democritus_strings module created."
+                }
+            ],
+            "exceptions": [
+                "RuntimeError"
+            ]
+        },
+        {
+            "name": "string_left_pad",
+            "docstring": "Pad the given string with the given padding_characters such that the length of the resulting string is equal to the `length` argument. Adapted from the javascript code here: https://www.theregister.co.uk/2016/03/23/npm_left_pad_chaos/.",
+            "signature": "(string, length: int, *, padding_characters=' ')",
+            "examples": [],
+            "changes": [
+                {
+                    "date": "2021-01-27",
+                    "type": "addition",
+                    "note": "Documentation for the democritus_strings module created."
+                }
+            ],
+            "exceptions": [
+                "ValueError"
+            ]
+        },
+        {
+            "name": "string_to_bool",
+            "docstring": ".",
+            "signature": "(string: str) -> bool",
+            "examples": [],
+            "changes": [
+                {
+                    "date": "2021-01-27",
+                    "type": "addition",
+                    "note": "Documentation for the democritus_strings module created."
+                }
+            ],
+            "exceptions": []
+        },
+        {
+            "name": "text_examples",
+            "docstring": "Create n example texts.",
+            "signature": "(n=10)",
+            "examples": [],
+            "changes": [
+                {
+                    "date": "2021-01-27",
+                    "type": "addition",
+                    "note": "Documentation for the democritus_strings module created."
+                }
+            ],
+            "exceptions": []
+        },
+        {
+            "name": "string_has_multiple_consecutive_spaces",
+            "docstring": "Return True if the given string has multiple, consecutive spaces.",
+            "signature": "(string)",
+            "examples": [],
+            "changes": [
+                {
+                    "date": "2021-01-27",
+                    "type": "addition",
+                    "note": "Documentation for the democritus_strings module created."
+                }
+            ],
+            "exceptions": []
+        },
+        {
+            "name": "character_examples",
+            "docstring": "Create n example characters.",
+            "signature": "(n=10)",
+            "examples": [],
+            "changes": [
+                {
+                    "date": "2021-01-27",
+                    "type": "addition",
+                    "note": "Documentation for the democritus_strings module created."
+                }
+            ],
+            "exceptions": []
+        },
+        {
+            "name": "text_abbreviate",
+            "docstring": "Abbreviate the given text.",
+            "signature": "(text)",
+            "examples": [],
+            "changes": [
+                {
+                    "date": "2021-01-27",
+                    "type": "addition",
+                    "note": "Documentation for the democritus_strings module created."
+                }
+            ],
+            "exceptions": []
+        },
+        {
+            "name": "text_input_is_yes",
+            "docstring": "Get yes/no input from the user and return `True` if the input is yes and `False` if the input is no.",
+            "signature": "(message)",
+            "examples": [],
+            "changes": [
+                {
+                    "date": "2021-01-27",
+                    "type": "addition",
+                    "note": "Documentation for the democritus_strings module created."
+                }
+            ],
+            "exceptions": []
+        },
+        {
+            "name": "text_input_is_no",
+            "docstring": "Get yes/no input from the user and return `True` if the input is no and `False` if the input is yes.",
+            "signature": "(message)",
+            "examples": [],
+            "changes": [
+                {
+                    "date": "2021-01-27",
+                    "type": "addition",
+                    "note": "Documentation for the democritus_strings module created."
+                }
+            ],
+            "exceptions": []
+        },
+        {
+            "name": "string_is_yes",
+            "docstring": "Check if a string is some form of `y` or `yes`.",
+            "signature": "(string)",
+            "examples": [],
+            "changes": [
+                {
+                    "date": "2021-01-27",
+                    "type": "addition",
+                    "note": "Documentation for the democritus_strings module created."
+                }
+            ],
+            "exceptions": []
+        },
+        {
+            "name": "string_is_no",
+            "docstring": "Check if a string is some form of `n` or `no`.",
+            "signature": "(string)",
+            "examples": [],
+            "changes": [
+                {
+                    "date": "2021-01-27",
+                    "type": "addition",
+                    "note": "Documentation for the democritus_strings module created."
+                }
+            ],
+            "exceptions": []
+        },
+        {
+            "name": "xor",
+            "docstring": ".",
+            "signature": "(message, key)",
+            "examples": [],
+            "changes": [
+                {
+                    "date": "2021-01-27",
+                    "type": "addition",
+                    "note": "Documentation for the democritus_strings module created."
+                }
+            ],
+            "exceptions": []
+        },
+        {
+            "name": "text_join",
+            "docstring": "Join all of the arguments around the given join_character.",
+            "signature": "(join_character, *args)",
+            "examples": [],
+            "changes": [
+                {
+                    "date": "2021-01-27",
+                    "type": "addition",
+                    "note": "Documentation for the democritus_strings module created."
+                }
+            ],
+            "exceptions": []
+        },
+        {
+            "name": "string_insert",
+            "docstring": "Insert the new_string into the existing_string at the given index.",
+            "signature": "(existing_string, new_string, index)",
+            "examples": [],
+            "changes": [
+                {
+                    "date": "2021-01-27",
+                    "type": "addition",
+                    "note": "Documentation for the democritus_strings module created."
+                }
+            ],
+            "exceptions": []
+        },
+        {
+            "name": "base64_encode",
+            "docstring": "Base64 encode the string.",
+            "signature": "(input_string)",
+            "examples": [],
+            "changes": [
+                {
+                    "date": "2021-01-27",
+                    "type": "addition",
+                    "note": "Documentation for the democritus_strings module created."
+                }
+            ],
+            "exceptions": []
+        },
+        {
+            "name": "base64_decode",
+            "docstring": "Base64 decode the string.",
+            "signature": "(input_string)",
+            "examples": [],
+            "changes": [
+                {
+                    "date": "2021-01-27",
+                    "type": "addition",
+                    "note": "Documentation for the democritus_strings module created."
+                }
+            ],
+            "exceptions": []
+        },
+        {
+            "name": "string_sequence_matcher",
+            "docstring": "Create a difflib.SequenceMatcher for the given string.",
+            "signature": "(string_a, string_b)",
+            "examples": [],
+            "changes": [
+                {
+                    "date": "2021-01-27",
+                    "type": "addition",
+                    "note": "Documentation for the democritus_strings module created."
+                }
+            ],
+            "exceptions": []
+        },
+        {
+            "name": "strings_diff",
+            "docstring": "Return the diff of the two strings.",
+            "signature": "(string_a, string_b)",
+            "examples": [],
+            "changes": [
+                {
+                    "date": "2021-01-27",
+                    "type": "addition",
+                    "note": "Documentation for the democritus_strings module created."
+                }
+            ],
+            "exceptions": []
+        },
+        {
+            "name": "string_add_to_start_of_each_line",
+            "docstring": "Add the given string_to_add_to_each_line to the beginning of each line in the string.",
+            "signature": "(string: str, string_to_add_to_each_line: str)",
+            "examples": [],
+            "changes": [
+                {
+                    "date": "2021-01-27",
+                    "type": "addition",
+                    "note": "Documentation for the democritus_strings module created."
+                }
+            ],
+            "exceptions": []
+        },
+        {
+            "name": "string_get_closes_matches",
+            "docstring": "Return the words from the list of possible matches that are closest to the given word.",
+            "signature": "(word, possible_matches, maximum_matches=3, cutoff=0.6)",
+            "examples": [],
+            "changes": [
+                {
+                    "date": "2021-01-27",
+                    "type": "addition",
+                    "note": "Documentation for the democritus_strings module created."
+                }
+            ],
+            "exceptions": []
+        },
+        {
+            "name": "strings_similarity",
+            "docstring": "Return the ratio of similarity between the two strings.",
+            "signature": "(a: str, b: str)",
+            "examples": [],
+            "changes": [
+                {
+                    "date": "2021-01-27",
+                    "type": "addition",
+                    "note": "Documentation for the democritus_strings module created."
+                }
+            ],
+            "exceptions": []
+        },
+        {
+            "name": "strings_matching_blocks",
+            "docstring": "Return the matching blocks in the given strings.",
+            "signature": "(a: str, b: str)",
+            "examples": [],
+            "changes": [
+                {
+                    "date": "2021-01-27",
+                    "type": "addition",
+                    "note": "Documentation for the democritus_strings module created."
+                }
+            ],
+            "exceptions": []
+        },
+        {
+            "name": "strings_longest_matching_block",
+            "docstring": "Return the longest matching block in the string.",
+            "signature": "(a: str, b: str)",
+            "examples": [],
+            "changes": [
+                {
+                    "date": "2021-01-27",
+                    "type": "addition",
+                    "note": "Documentation for the democritus_strings module created."
+                }
+            ],
+            "exceptions": []
+        },
+        {
+            "name": "strings_diff_opcodes",
+            "docstring": "Return the opcodes representing the differences/similarities between two strings.",
+            "signature": "(a: str, b: str)",
+            "examples": [],
+            "changes": [
+                {
+                    "date": "2021-01-27",
+                    "type": "addition",
+                    "note": "Documentation for the democritus_strings module created."
+                }
+            ],
+            "exceptions": []
+        },
+        {
+            "name": "string_common_prefix",
+            "docstring": "Returns the common prefix string from left to right between a and b.",
+            "signature": "(a: str, b: str) -> str",
+            "examples": [],
+            "changes": [
+                {
+                    "date": "2021-01-27",
+                    "type": "addition",
+                    "note": "Documentation for the democritus_strings module created."
+                }
+            ],
+            "exceptions": []
+        },
+        {
+            "name": "string_common_suffix",
+            "docstring": "Returns the common suffix string from left to right between a and b.",
+            "signature": "(a: str, b: str)",
+            "examples": [],
+            "changes": [
+                {
+                    "date": "2021-01-27",
+                    "type": "addition",
+                    "note": "Documentation for the democritus_strings module created."
+                }
+            ],
+            "exceptions": []
+        },
+        {
+            "name": "characters",
+            "docstring": "Return all of the characters in the given string.",
+            "signature": "(input_string)",
+            "examples": [],
+            "changes": [
+                {
+                    "date": "2021-01-27",
+                    "type": "addition",
+                    "note": "Documentation for the democritus_strings module created."
+                }
+            ],
+            "exceptions": []
+        },
+        {
+            "name": "hex_to_string",
+            "docstring": "Convert the given hex string to ascii.",
+            "signature": "(hex_string)",
+            "examples": [],
+            "changes": [
+                {
+                    "date": "2021-01-27",
+                    "type": "addition",
+                    "note": "Documentation for the democritus_strings module created."
+                }
+            ],
+            "exceptions": []
+        },
+        {
+            "name": "string_to_hex",
+            "docstring": "Convert the given ascii string to hex.",
+            "signature": "(ascii_string: str, seperator='') -> str",
+            "examples": [],
+            "changes": [
+                {
+                    "date": "2021-01-27",
+                    "type": "addition",
+                    "note": "Documentation for the democritus_strings module created."
+                }
+            ],
+            "exceptions": []
+        },
+        {
+            "name": "character_to_unicode_number",
+            "docstring": "Convert the given character to its Unicode number. This is the same as the `ord` function in python.",
+            "signature": "(character)",
+            "examples": [],
+            "changes": [
+                {
+                    "date": "2021-01-27",
+                    "type": "addition",
+                    "note": "Documentation for the democritus_strings module created."
+                }
+            ],
+            "exceptions": []
+        },
+        {
+            "name": "unicode_number_to_character",
+            "docstring": "Convert the given unicode_number to it's unicode character form. This is the same as the `chr` function in python.",
+            "signature": "(unicode_number)",
+            "examples": [],
+            "changes": [
+                {
+                    "date": "2021-01-27",
+                    "type": "addition",
+                    "note": "Documentation for the democritus_strings module created."
+                }
+            ],
+            "exceptions": []
+        },
+        {
+            "name": "hamming_distance",
+            "docstring": "Return the number of positions at which corresponding symbols in string_1 and string_2 are different (this is known as the Hamming Distance). See https://en.wikipedia.org/wiki/Hamming_distance.",
+            "signature": "(string_1, string_2, as_percent=False)",
+            "examples": [],
+            "changes": [
+                {
+                    "date": "2021-01-27",
+                    "type": "addition",
+                    "note": "Documentation for the democritus_strings module created."
+                }
+            ],
+            "exceptions": [
+                "ValueError"
+            ]
+        },
+        {
+            "name": "from_char_code",
+            "docstring": ".",
+            "signature": "(integer_list)",
+            "examples": [],
+            "changes": [
+                {
+                    "date": "2021-01-27",
+                    "type": "addition",
+                    "note": "Documentation for the democritus_strings module created."
+                }
+            ],
+            "exceptions": []
+        },
+        {
+            "name": "text_ascii_characters",
+            "docstring": ".",
+            "signature": "(text: str) -> Tuple[str]",
+            "examples": [],
+            "changes": [
+                {
+                    "date": "2021-01-27",
+                    "type": "addition",
+                    "note": "Documentation for the democritus_strings module created."
+                }
+            ],
+            "exceptions": []
+        },
+        {
+            "name": "text_non_ascii_characters",
+            "docstring": ".",
+            "signature": "(text: str) -> Tuple[str]",
+            "examples": [],
+            "changes": [
+                {
+                    "date": "2021-01-27",
+                    "type": "addition",
+                    "note": "Documentation for the democritus_strings module created."
+                }
+            ],
+            "exceptions": []
+        },
+        {
+            "name": "letter_as_number",
+            "docstring": ".",
+            "signature": "(letter)",
+            "examples": [],
+            "changes": [
+                {
+                    "date": "2021-01-27",
+                    "type": "addition",
+                    "note": "Documentation for the democritus_strings module created."
+                }
+            ],
+            "exceptions": []
+        },
+        {
+            "name": "letter_frequency",
+            "docstring": "Find the frequency of the given letter in the given text.",
+            "signature": "(letter, text)",
+            "examples": [],
+            "changes": [
+                {
+                    "date": "2021-01-27",
+                    "type": "addition",
+                    "note": "Documentation for the democritus_strings module created."
+                }
+            ],
+            "exceptions": []
+        },
+        {
+            "name": "string_entropy",
+            "docstring": "Find the shannon entropy of the text. Inspired by the algorithm here https://web.archive.org/web/20160320142455/https://deadhacker.com/2007/05/13/finding-entropy-in-binary-files/. You can see more here: https://en.wikipedia.org/wiki/Entropy_(information_theory)",
+            "signature": "(text, ignore_case=False)",
+            "examples": [],
+            "changes": [
+                {
+                    "date": "2021-01-27",
+                    "type": "addition",
+                    "note": "Documentation for the democritus_strings module created."
+                }
+            ],
+            "exceptions": []
+        },
+        {
+            "name": "substrings",
+            "docstring": "Find all substrings in the given string.",
+            "signature": "(iterable)",
+            "examples": [],
+            "changes": [
+                {
+                    "date": "2021-01-27",
+                    "type": "addition",
+                    "note": "Documentation for the democritus_strings module created."
+                }
+            ],
+            "exceptions": []
+        },
+        {
+            "name": "string_remove_non_alphabetic_characters",
+            "docstring": ".",
+            "signature": "(string: str)",
+            "examples": [],
+            "changes": [
+                {
+                    "date": "2021-01-27",
+                    "type": "addition",
+                    "note": "Documentation for the democritus_strings module created."
+                }
+            ],
+            "exceptions": []
+        },
+        {
+            "name": "string_remove_non_numeric_characters",
+            "docstring": ".",
+            "signature": "(string: str)",
+            "examples": [],
+            "changes": [
+                {
+                    "date": "2021-01-27",
+                    "type": "addition",
+                    "note": "Documentation for the democritus_strings module created."
+                }
+            ],
+            "exceptions": []
+        },
+        {
+            "name": "string_remove_non_alpha_numeric_characters",
+            "docstring": ".",
+            "signature": "(string: str)",
+            "examples": [],
+            "changes": [
+                {
+                    "date": "2021-01-27",
+                    "type": "addition",
+                    "note": "Documentation for the democritus_strings module created."
+                }
+            ],
+            "exceptions": []
+        },
+        {
+            "name": "string_remove",
+            "docstring": "Remove the regex_pattern from the input_string.",
+            "signature": "(regex_pattern, input_string, **kwargs)",
+            "examples": [],
+            "changes": [
+                {
+                    "date": "2021-01-27",
+                    "type": "addition",
+                    "note": "Documentation for the democritus_strings module created."
+                }
+            ],
+            "exceptions": []
+        },
+        {
+            "name": "string_remove_unicode",
+            "docstring": "Remove all Unicode characters from the given string.",
+            "signature": "(string: str)",
+            "examples": [],
+            "changes": [
+                {
+                    "date": "2021-01-27",
+                    "type": "addition",
+                    "note": "Documentation for the democritus_strings module created."
+                }
+            ],
+            "exceptions": []
+        },
+        {
+            "name": "string_remove_numbers",
+            "docstring": "Remove all numbers from the input_strings.",
+            "signature": "(input_string: str, replacement: str = ' ')",
+            "examples": [],
+            "changes": [
+                {
+                    "date": "2021-01-27",
+                    "type": "addition",
+                    "note": "Documentation for the democritus_strings module created."
+                }
+            ],
+            "exceptions": []
+        },
+        {
+            "name": "string_remove_from_start",
+            "docstring": "Remove the string_to_remove from the start of the input_string.",
+            "signature": "(input_string, string_to_remove)",
+            "examples": [],
+            "changes": [
+                {
+                    "date": "2021-01-27",
+                    "type": "addition",
+                    "note": "Documentation for the democritus_strings module created."
+                }
+            ],
+            "exceptions": []
+        },
+        {
+            "name": "string_remove_from_end",
+            "docstring": "Remove the string_to_remove from the end of the input_string.",
+            "signature": "(input_string, string_to_remove)",
+            "examples": [],
+            "changes": [
+                {
+                    "date": "2021-01-27",
+                    "type": "addition",
+                    "note": "Documentation for the democritus_strings module created."
+                }
+            ],
+            "exceptions": []
+        },
+        {
+            "name": "string_as_numbers",
+            "docstring": ".",
+            "signature": "(input_string: str)",
+            "examples": [],
+            "changes": [
+                {
+                    "date": "2021-01-27",
+                    "type": "addition",
+                    "note": "Documentation for the democritus_strings module created."
+                }
+            ],
+            "exceptions": []
+        },
+        {
+            "name": "string_in_iterable_fuzzy",
+            "docstring": "Find if the given input_string is in one of the strings in an iterable.",
+            "signature": "(input_string, iterable)",
+            "examples": [],
+            "changes": [
+                {
+                    "date": "2021-01-27",
+                    "type": "addition",
+                    "note": "Documentation for the democritus_strings module created."
+                }
+            ],
+            "exceptions": []
+        },
+        {
+            "name": "string_find_between",
+            "docstring": "Find the string in the input_string that is between the start_string and the end_string.",
+            "signature": "(input_string: str, start_string: str, end_string: str, *args)",
+            "examples": [],
+            "changes": [
+                {
+                    "date": "2021-01-27",
+                    "type": "addition",
+                    "note": "Documentation for the democritus_strings module created."
+                }
+            ],
+            "exceptions": []
+        },
+        {
+            "name": "switch",
+            "docstring": "Switch a and b in the text.",
+            "signature": "(a, b, text)",
+            "examples": [],
+            "changes": [
+                {
+                    "date": "2021-01-27",
+                    "type": "addition",
+                    "note": "Documentation for the democritus_strings module created."
+                }
+            ],
+            "exceptions": []
+        },
+        {
+            "name": "string_encode_as_bytes",
+            "docstring": null,
+            "signature": "(input_string, encoding='utf-8', **kwargs)",
+            "examples": [],
+            "changes": [
+                {
+                    "date": "2021-01-27",
+                    "type": "addition",
+                    "note": "Documentation for the democritus_strings module created."
+                }
+            ],
+            "exceptions": []
+        },
+        {
+            "name": "bytes_decode_as_string",
+            "docstring": null,
+            "signature": "(bytes_text, encoding='utf-8', **kwargs)",
+            "examples": [],
+            "changes": [
+                {
+                    "date": "2021-01-27",
+                    "type": "addition",
+                    "note": "Documentation for the democritus_strings module created."
+                }
+            ],
+            "exceptions": []
+        },
+        {
+            "name": "string_shorten",
+            "docstring": "Shorten the given input_string to the given length.",
+            "signature": "(input_string, length, suffix='...')",
+            "examples": [],
+            "changes": [
+                {
+                    "date": "2021-01-27",
+                    "type": "addition",
+                    "note": "Documentation for the democritus_strings module created."
+                }
+            ],
+            "exceptions": []
+        },
+        {
+            "name": "string_split_without_empty",
+            "docstring": "Split a input_string on split_char and remove empty entries.",
+            "signature": "(input_string, split_char)",
+            "examples": [],
+            "changes": [
+                {
+                    "date": "2021-01-27",
+                    "type": "addition",
+                    "note": "Documentation for the democritus_strings module created."
+                }
+            ],
+            "exceptions": []
+        },
+        {
+            "name": "string_has_index",
+            "docstring": ".",
+            "signature": "(string: str, index: Union[str, int]) -> bool",
+            "examples": [],
+            "changes": [
+                {
+                    "date": "2021-01-27",
+                    "type": "addition",
+                    "note": "Documentation for the democritus_strings module created."
+                }
+            ],
+            "exceptions": []
+        },
+        {
+            "name": "string_split_on_uppercase",
+            "docstring": "Split the input_string on uppercase characters. If split_acronyms is False, the function will not split consecutive uppercase letters.",
+            "signature": "(input_string: str, include_uppercase_characters=False, split_acronyms=True)",
+            "examples": [],
+            "changes": [
+                {
+                    "date": "2021-01-27",
+                    "type": "addition",
+                    "note": "Documentation for the democritus_strings module created."
+                }
+            ],
+            "exceptions": [
+                "ValueError"
+            ]
+        },
+        {
+            "name": "string_split_on_lowercase",
+            "docstring": "Split the string on lowercase characters.",
+            "signature": "(input_string, include_lowercase_characters=False)",
+            "examples": [],
+            "changes": [
+                {
+                    "date": "2021-01-27",
+                    "type": "addition",
+                    "note": "Documentation for the democritus_strings module created."
+                }
+            ],
+            "exceptions": []
+        },
+        {
+            "name": "string_split_multiple",
+            "docstring": "Split a string up based on multiple splitting_characters.",
+            "signature": "(string, *splitting_characters)",
+            "examples": [],
+            "changes": [
+                {
+                    "date": "2021-01-27",
+                    "type": "addition",
+                    "note": "Documentation for the democritus_strings module created."
+                }
+            ],
+            "exceptions": []
+        },
+        {
+            "name": "string_reverse_case",
+            "docstring": "Make lowercase characters uppercased and visa-versa.",
+            "signature": "(input_string)",
+            "examples": [],
+            "changes": [
+                {
+                    "date": "2021-01-27",
+                    "type": "addition",
+                    "note": "Documentation for the democritus_strings module created."
+                }
+            ],
+            "exceptions": []
+        },
+        {
+            "name": "text_vowels",
+            "docstring": "Return all of the vowels in the text.",
+            "signature": "(text)",
+            "examples": [],
+            "changes": [
+                {
+                    "date": "2021-01-27",
+                    "type": "addition",
+                    "note": "Documentation for the democritus_strings module created."
+                }
+            ],
+            "exceptions": []
+        },
+        {
+            "name": "text_vowel_count",
+            "docstring": "Count the number of vowels in the text.",
+            "signature": "(text)",
+            "examples": [],
+            "changes": [
+                {
+                    "date": "2021-01-27",
+                    "type": "addition",
+                    "note": "Documentation for the democritus_strings module created."
+                }
+            ],
+            "exceptions": []
+        },
+        {
+            "name": "text_consonants",
+            "docstring": "Return all of the consonants in the text.",
+            "signature": "(text)",
+            "examples": [],
+            "changes": [
+                {
+                    "date": "2021-01-27",
+                    "type": "addition",
+                    "note": "Documentation for the democritus_strings module created."
+                }
+            ],
+            "exceptions": []
+        },
+        {
+            "name": "text_consonant_count",
+            "docstring": "Count the number of consonants in the text.",
+            "signature": "(text)",
+            "examples": [],
+            "changes": [
+                {
+                    "date": "2021-01-27",
+                    "type": "addition",
+                    "note": "Documentation for the democritus_strings module created."
+                }
+            ],
+            "exceptions": []
+        },
+        {
+            "name": "text_input",
+            "docstring": ".",
+            "signature": "(message='Enter/Paste your content.')",
+            "examples": [],
+            "changes": [
+                {
+                    "date": "2021-01-27",
+                    "type": "addition",
+                    "note": "Documentation for the democritus_strings module created."
+                }
+            ],
+            "exceptions": []
+        },
+        {
+            "name": "text_ensure_starts_with",
+            "docstring": "Make sure the given text starts with the given prefix.",
+            "signature": "(text: str, prefix: str)",
+            "examples": [],
+            "changes": [
+                {
+                    "date": "2021-01-27",
+                    "type": "addition",
+                    "note": "Documentation for the democritus_strings module created."
+                }
+            ],
+            "exceptions": []
+        },
+        {
+            "name": "text_ensure_ends_with",
+            "docstring": "Make sure the given text ends with the given suffix.",
+            "signature": "(text: str, suffix: str)",
+            "examples": [],
+            "changes": [
+                {
+                    "date": "2021-01-27",
+                    "type": "addition",
+                    "note": "Documentation for the democritus_strings module created."
+                }
+            ],
+            "exceptions": []
+        },
+        {
+            "name": "titlecase",
+            "docstring": null,
+            "signature": "(item)",
+            "examples": [],
+            "changes": [
+                {
+                    "date": "2021-01-27",
+                    "type": "addition",
+                    "note": "Documentation for the democritus_strings module created."
+                }
+            ],
+            "exceptions": []
+        },
+        {
+            "name": "uppercase",
+            "docstring": null,
+            "signature": "(item)",
+            "examples": [],
+            "changes": [
+                {
+                    "date": "2021-01-27",
+                    "type": "addition",
+                    "note": "Documentation for the democritus_strings module created."
+                }
+            ],
+            "exceptions": []
+        },
+        {
+            "name": "uppercase_first_letter",
+            "docstring": "Make the first letter of the text uppercase.",
+            "signature": "(text)",
+            "examples": [],
+            "changes": [
+                {
+                    "date": "2021-01-27",
+                    "type": "addition",
+                    "note": "Documentation for the democritus_strings module created."
+                }
+            ],
+            "exceptions": []
+        },
+        {
+            "name": "lowercase_first_letter",
+            "docstring": "Make the first letter of the text lowercase.",
+            "signature": "(text)",
+            "examples": [],
+            "changes": [
+                {
+                    "date": "2021-01-27",
+                    "type": "addition",
+                    "note": "Documentation for the democritus_strings module created."
+                }
+            ],
+            "exceptions": []
+        },
+        {
+            "name": "crazycase",
+            "docstring": "Make the case of the characters in the given text pseudo-random",
+            "signature": "(text)",
+            "examples": [],
+            "changes": [
+                {
+                    "date": "2021-01-27",
+                    "type": "addition",
+                    "note": "Documentation for the democritus_strings module created."
+                }
+            ],
+            "exceptions": []
+        },
+        {
+            "name": "kebab_case",
+            "docstring": "Return the text with a \"-\" in place of every space.",
+            "signature": "(text)",
+            "examples": [],
+            "changes": [
+                {
+                    "date": "2021-01-27",
+                    "type": "addition",
+                    "note": "Documentation for the democritus_strings module created."
+                }
+            ],
+            "exceptions": []
+        },
+        {
+            "name": "snake_case",
+            "docstring": "Return the text with a \"_\" in place of every space.",
+            "signature": "(text)",
+            "examples": [],
+            "changes": [
+                {
+                    "date": "2021-01-27",
+                    "type": "addition",
+                    "note": "Documentation for the democritus_strings module created."
+                }
+            ],
+            "exceptions": []
+        },
+        {
+            "name": "camel_case",
+            "docstring": "Return the text with no spaces and every word (except the first one) capitalized.",
+            "signature": "(text: str)",
+            "examples": [],
+            "changes": [
+                {
+                    "date": "2021-01-27",
+                    "type": "addition",
+                    "note": "Documentation for the democritus_strings module created."
+                }
+            ],
+            "exceptions": []
+        },
+        {
+            "name": "pascal_case",
+            "docstring": "Return the text with no spaces and every word capitalized.",
+            "signature": "(text: str)",
+            "examples": [],
+            "changes": [
+                {
+                    "date": "2021-01-27",
+                    "type": "addition",
+                    "note": "Documentation for the democritus_strings module created."
+                }
+            ],
+            "exceptions": []
+        },
+        {
+            "name": "sentence_case",
+            "docstring": ".",
+            "signature": "(text: str)",
+            "examples": [],
+            "changes": [
+                {
+                    "date": "2021-01-27",
+                    "type": "addition",
+                    "note": "Documentation for the democritus_strings module created."
+                }
+            ],
+            "exceptions": [
+                "NotImplementedError"
+            ]
+        },
+        {
+            "name": "uppercase_count",
+            "docstring": "Count the number of uppercase letters in the given text.",
+            "signature": "(text)",
+            "examples": [],
+            "changes": [
+                {
+                    "date": "2021-01-27",
+                    "type": "addition",
+                    "note": "Documentation for the democritus_strings module created."
+                }
+            ],
+            "exceptions": []
+        },
+        {
+            "name": "lowercase_count",
+            "docstring": "Count the number of lowercase letters in the given text.",
+            "signature": "(text)",
+            "examples": [],
+            "changes": [
+                {
+                    "date": "2021-01-27",
+                    "type": "addition",
+                    "note": "Documentation for the democritus_strings module created."
+                }
+            ],
+            "exceptions": []
+        },
+        {
+            "name": "lowercase",
+            "docstring": null,
+            "signature": "(item)",
+            "examples": [],
+            "changes": [
+                {
+                    "date": "2021-01-27",
+                    "type": "addition",
+                    "note": "Documentation for the democritus_strings module created."
+                }
+            ],
+            "exceptions": []
+        },
+        {
+            "name": "string_rotate",
+            "docstring": "Return the text converted using a Caesar cipher (https://en.wikipedia.org/wiki/Caesar_cipher) in which the text is rotated by the given amount (using the `rot` argument).",
+            "signature": "(text, rot=13)",
+            "examples": [],
+            "changes": [
+                {
+                    "date": "2021-01-27",
+                    "type": "addition",
+                    "note": "Documentation for the democritus_strings module created."
+                }
+            ],
+            "exceptions": []
+        },
+        {
+            "name": "text_is_english_sentence",
+            "docstring": "Determine whether or not the sentence is likely English.",
+            "signature": "(text: str) -> bool",
+            "examples": [],
+            "changes": [
+                {
+                    "date": "2021-01-27",
+                    "type": "addition",
+                    "note": "Documentation for the democritus_strings module created."
+                }
+            ],
+            "exceptions": []
+        },
+        {
+            "name": "leet_speak_to_text",
+            "docstring": ".",
+            "signature": "(leet_speak_text)",
+            "examples": [],
+            "changes": [
+                {
+                    "date": "2021-01-27",
+                    "type": "addition",
+                    "note": "Documentation for the democritus_strings module created."
+                }
+            ],
+            "exceptions": []
+        },
+        {
+            "name": "text_to_leet_speak",
+            "docstring": ".",
+            "signature": "(text)",
+            "examples": [],
+            "changes": [
+                {
+                    "date": "2021-01-27",
+                    "type": "addition",
+                    "note": "Documentation for the democritus_strings module created."
+                }
+            ],
+            "exceptions": []
+        },
+        {
+            "name": "unicode_to_ascii",
+            "docstring": "Convert the text to ascii.",
+            "signature": "(text: str)",
+            "examples": [
+                "def test_unicode_to_ascii_docs_1():\n    s = 'Kl\u00fcft skr\u00e4ms inf\u00f6r p\u00e5 f\u00e9d\u00e9ral \u00e9lectoral gro\u00dfe'\n    assert unicode_to_ascii(s) == 'Kluft skrams infor pa federal electoral groe'"
+            ],
+            "changes": [
+                {
+                    "date": "2021-01-27",
+                    "type": "addition",
+                    "note": "Documentation for the democritus_strings module created."
+                }
+            ],
+            "exceptions": []
+        }
+    ],
+    "module": "democritus_strings"
+}
