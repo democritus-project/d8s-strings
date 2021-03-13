@@ -4,7 +4,7 @@ import re
 
 import pytest
 
-from democritus_strings import (
+from d8s_strings import (
     base64_decode,
     base64_encode,
     camel_case,
@@ -97,7 +97,7 @@ from democritus_strings import (
     text_ensure_starts_with,
     string_chars_at_start,
 )
-from democritus_strings.strings import _handle_casing
+from d8s_strings.strings import _handle_casing
 
 
 def repeat_concurrently(n: int = 10):
@@ -745,7 +745,7 @@ def test_hex_to_string_1():
     s = '666f6f 626172'
     assert hex_to_string(s) == 'foobar'
 
-    # see https://github.com/democritus-project/democritus-strings/issues/5
+    # see https://github.com/democritus-project/d8s-strings/issues/5
     # s = '\xd0\xb2\xd0\xba'
     # assert hex_to_string(s) == 'foobar'
 

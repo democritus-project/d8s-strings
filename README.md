@@ -1,8 +1,8 @@
 # Democritus Strings
 
-[![PyPI](https://img.shields.io/pypi/v/democritus-strings.svg)](https://pypi.python.org/pypi/democritus-strings)
-[![Build Status](https://travis-ci.com/democritus-project/democritus-strings.svg?branch=master)](https://travis-ci.com/democritus-project/democritus-strings)
-[![codecov](https://codecov.io/gh/democritus-project/democritus-strings/branch/master/graph/badge.svg?token=V0WOIXRGMM)](https://codecov.io/gh/democritus-project/democritus-strings)
+[![PyPI](https://img.shields.io/pypi/v/d8s-strings.svg)](https://pypi.python.org/pypi/d8s-strings)
+[![Build Status](https://travis-ci.com/democritus-project/d8s-strings.svg?branch=main)](https://travis-ci.com/democritus-project/d8s-strings)
+[![codecov](https://codecov.io/gh/democritus-project/d8s-strings/branch/main/graph/badge.svg?token=V0WOIXRGMM)](https://codecov.io/gh/democritus-project/d8s-strings)
 
 Democritus functions<sup>[1]</sup> for working with Python strings.
 
