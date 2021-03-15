@@ -9,4 +9,3 @@ pylint
 pytest
 pytest-cov
 democritus_file_system
-democritus_strings
