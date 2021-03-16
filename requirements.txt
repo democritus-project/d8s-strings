@@ -1,5 +1,5 @@
-democritus-hypothesis
-democritus-uuids
+d8s-hypothesis
+d8s-uuids
 hypothesis
 importlib-metadata; python_version < '3.8'
 inflect

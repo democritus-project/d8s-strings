@@ -225,7 +225,7 @@ def text_examples(n=10):
     """Create n example texts."""
     from hypothesis.strategies import text
 
-    from democritus_hypothesis import hypothesis_get_strategy_results
+    from d8s_hypothesis import hypothesis_get_strategy_results
 
     return hypothesis_get_strategy_results(text, n=n)
 
@@ -241,7 +241,7 @@ def character_examples(n=10):
     """Create n example characters."""
     from hypothesis.strategies import characters
 
-    from democritus_hypothesis import hypothesis_get_strategy_results
+    from d8s_hypothesis import hypothesis_get_strategy_results
 
     return hypothesis_get_strategy_results(characters, n=n)
 
@@ -630,7 +630,7 @@ def string_find_between(input_string: str, start_string: str, end_string: str, *
 
 def switch(a, b, text):
     """Switch a and b in the text."""
-    from democritus_uuids import uuid4
+    from d8s_uuids import uuid4
 
     a_replacement = str(uuid4())
     b_replacement = str(uuid4())
