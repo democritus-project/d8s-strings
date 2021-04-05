@@ -8,4 +8,5 @@ mypy
 pylint
 pytest
 pytest-cov
-d8s-file_system==0.*
+d8s-file-system==0.*
+d8s-python==0.*
