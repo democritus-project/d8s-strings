@@ -1,6 +1,4 @@
-import concurrent.futures
 import functools
-import re
 
 import pytest
 

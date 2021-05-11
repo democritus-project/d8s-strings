@@ -2,13 +2,15 @@ import re
 import string
 import sys
 import unicodedata
-from typing import Any, Iterable, List, Tuple, Union
+from typing import Iterable, Union
 
 from d8s_dicts import dict_delistify_values, dict_flip
 from d8s_lists import deduplicate, has_index, shortest, truthy_items
 from d8s_math import number_evenly_divides, percent
 
 # from textblob import TextBlob
+
+# pylint: disable=C0415
 
 
 # TODO: add a function to get a substring between two given characters
@@ -122,8 +124,8 @@ def pluralize(word: str) -> str:
 def is_singular(possible_singular: str) -> bool:
     """Return whether or not the possible_singular is singular."""
     # this is a repetition of the code from the is_plural function and does not simply return `not is_plural` because...
-    # there are many different responses possible from inflect_engine.compare and there are cases where inflect_engine.compare...
-    # cannot compare the two words
+    # there are many different responses possible from inflect_engine.compare and there are cases where
+    # inflect_engine.compare... cannot compare the two words
     singular = False
     inflect_engine = _inflect_engine()
     pluralized_word = inflect_engine.plural(possible_singular)
@@ -153,7 +155,8 @@ def cardinalize(word: str, count: int) -> str:
         if count == 1:
             return word
         word = pluralize(word)
-    # I know this is using the singular_noun function, but it will return either singular or plural nouns based on the count argument
+    # I know this is using the singular_noun function, but it will return either singular or plural nouns
+    # based on the count argument
     return inflect_engine.singular_noun(word, count=count)
 
 
@@ -168,8 +171,7 @@ def string_forms(text):
     # it is important to lowercase the text before we start so that we can avoid problems when making the text plural
     text = lowercase(text)
 
-    # TODO: may want to standardize casing of the keys... `uppercase` vs. `kebab_case`... either `uppercase` should be `upperCase` or `kebab_case` should be `kebabcase`
-    string_forms = {
+    forms = {
         'lowercase': lowercase(text),
         'titlecase': titlecase(text),
         'uppercase': uppercase(text),
@@ -189,7 +191,7 @@ def string_forms(text):
         'uppercaseIndefiniteArticle': uppercase(indefinite_article(text)),
     }
 
-    return string_forms
+    return forms
 
 
 def _inflect_engine():
@@ -201,13 +203,15 @@ def _inflect_engine():
 
 
 def string_left_pad(string, length: int, *, padding_characters=' '):
-    """Pad the given string with the given padding_characters such that the length of the resulting string is equal to the `length` argument. Adapted from the javascript code here: https://www.theregister.co.uk/2016/03/23/npm_left_pad_chaos/."""
+    """Pad the string with padding_characters such that the resulting string is the given length.
+
+    Adapted from the javascript code here: https://www.theregister.co.uk/2016/03/23/npm_left_pad_chaos/."""
     padding_length = length - len(string)
 
     if padding_length and not number_evenly_divides(len(padding_characters), padding_length):
         message = f'The length of the padding_characters ({len(padding_characters)}) must evenly divide the desired length of the final string ({length}).'
         raise ValueError(message)
-    else:
+    else:  # pylint: disable=R1720
         padding_length = int(padding_length / len(padding_characters))
 
     left_padded_string = padding_characters * padding_length + string
@@ -274,10 +278,7 @@ def text_input_is_no(message):
 
 def string_is_yes(string):
     """Check if a string is some form of `y` or `yes`."""
-    if lowercase(string) == 'y' or lowercase(string) == 'yes':
-        return True
-    else:
-        return False
+    return bool(lowercase(string) == 'y' or lowercase(string) == 'yes')
 
 
 def string_is_no(string):
@@ -399,7 +400,7 @@ def strings_diff_opcodes(a: str, b: str):
     """Return the opcodes representing the differences/similarities between two strings."""
     sequence_matcher = string_sequence_matcher(a, b)
 
-    return [i for i in sequence_matcher.get_opcodes()]
+    return sequence_matcher.get_opcodes()
 
 
 def string_common_prefix(a: str, b: str) -> str:
@@ -456,12 +457,12 @@ def hamming_distance(string_1, string_2, as_percent=False):
     if len(string_1) != len(string_2):
         raise ValueError('The length of the two strings must be the same')
 
-    hamming_distance = sum(el1 != el2 for el1, el2 in zip(string_1, string_2))
+    distance = sum(el1 != el2 for el1, el2 in zip(string_1, string_2))
 
     if as_percent:
-        return percent(hamming_distance / len(string_1))
+        return percent(distance / len(string_1))
     else:
-        return hamming_distance
+        return distance
 
 
 def from_char_code(integer_list):
@@ -469,7 +470,7 @@ def from_char_code(integer_list):
     return ''.join([chr(int(integer)) for integer in integer_list])
 
 
-def text_ascii_characters(text: str) -> Tuple[str]:
+def text_ascii_characters(text: str) -> Iterable[str]:
     """."""
     if NO_ISASCII_AVAILABLE:
         for char in text:
@@ -485,7 +486,7 @@ def text_ascii_characters(text: str) -> Tuple[str]:
                 yield char
 
 
-def text_non_ascii_characters(text: str) -> Tuple[str]:
+def text_non_ascii_characters(text: str) -> Iterable[str]:
     """."""
     if NO_ISASCII_AVAILABLE:
         for char in text:
@@ -538,19 +539,19 @@ def substrings(iterable):
     return more_itertools.substrings(iterable)
 
 
-def string_remove_non_alphabetic_characters(string: str):
-    """."""
-    pass
+# def string_remove_non_alphabetic_characters(string: str):
+#     """."""
+#     pass
 
 
-def string_remove_non_numeric_characters(string: str):
-    """."""
-    pass
+# def string_remove_non_numeric_characters(string: str):
+#     """."""
+#     pass
 
 
 def string_remove_non_alpha_numeric_characters(string: str):
     """."""
-    pattern = '[^a-zA-Z\d\s]'
+    pattern = r'[^a-zA-Z\d\s]'
     string_after_removal = string_remove(pattern, string)
     return string_after_removal
 
@@ -571,7 +572,7 @@ def string_remove_unicode(string: str):
 
 def string_remove_numbers(input_string: str, replacement: str = ' '):
     """Remove all numbers from the input_strings."""
-    new_string_without_numbers = re.sub('\d+', replacement, input_string)
+    new_string_without_numbers = re.sub(r'\d+', replacement, input_string)
     return new_string_without_numbers
 
 
@@ -919,15 +920,17 @@ def _handle_casing(item, casing):
             casing, available_casing_types
         )
         raise ValueError(message)
-    if isinstance(item, str) or isinstance(item, bytes):
-        return eval('item.{}()'.format(casing))
+    if isinstance(item, (str, bytes)):
+        return eval('item.{}()'.format(casing))  # pylint: disable=W0123
     else:
         print('! Democritus cannot yet {}-case an item of type {}'.format(casing, type(item)))
         return item
 
 
 def string_rotate(text, rot=13):
-    """Return the text converted using a Caesar cipher (https://en.wikipedia.org/wiki/Caesar_cipher) in which the text is rotated by the given amount (using the `rot` argument)."""
+    """Return the text converted using a Caesar cipher in which the text is rotated by the given amount.
+
+    See https://en.wikipedia.org/wiki/Caesar_cipher for more details."""
     # credit for the algorithm: https://github.com/python/cpython/blob/master/Lib/this.py
     d = {}
     for c in (65, 97):
@@ -937,14 +940,14 @@ def string_rotate(text, rot=13):
     return "".join([d.get(c, c) for c in text])
 
 
-def text_is_english_sentence(text: str) -> bool:
-    """Determine whether or not the sentence is likely English."""
-    language_detection_data = text_languages(text)
+# def text_is_english_sentence(text: str) -> bool:
+#     """Determine whether or not the sentence is likely English."""
+#     language_detection_data = text_languages(text)
 
-    if language_detection_data[0]['language'] == 'en' and language_detection_data[0]['probability'] >= 0.5:
-        return True
+#     if language_detection_data[0]['language'] == 'en' and language_detection_data[0]['probability'] >= 0.5:
+#         return True
 
-    return False
+#     return False
 
 
 LEET_SPEAK_CONVERSIONS = {'1': 'i', '3': 'e', '4': 'a', '5': 's', '9': 'g', '0': 'o'}
