@@ -4,98 +4,97 @@ import re
 
 import pytest
 
+from d8s_strings import camel_case  # string_words,
 from d8s_strings import (
+    a10n,
     base64_decode,
     base64_encode,
-    camel_case,
+    bytes_decode_as_string,
+    cardinalize,
+    character_examples,
     character_to_unicode_number,
+    characters,
     crazycase,
     from_char_code,
     hamming_distance,
     hex_to_string,
+    indefinite_article,
+    is_plural,
+    is_singular,
     kebab_case,
     leet_speak_to_text,
-    characters,
     letter_as_number,
+    lowercase,
     lowercase_count,
     lowercase_first_letter,
+    ordinalize,
     pascal_case,
-    string_encode_as_bytes,
-    bytes_decode_as_string,
+    pluralize,
+    sentence_case,
+    singularize,
     snake_case,
-    string_to_hex,
+    string_add_to_start_of_each_line,
     string_as_numbers,
+    string_chars_at_start,
+    string_common_prefix,
+    string_common_suffix,
+    string_encode_as_bytes,
     string_entropy,
+    string_find_between,
+    string_forms,
     string_get_closes_matches,
+    string_has_index,
+    string_has_multiple_consecutive_spaces,
     string_in_iterable_fuzzy,
+    string_insert,
+    string_is_no,
+    string_is_palindrome,
+    string_is_yes,
+    string_left_pad,
+    string_remove,
+    string_remove_after,
+    string_remove_before,
+    string_remove_from_end,
+    string_remove_from_start,
+    string_remove_index,
+    string_remove_non_alpha_numeric_characters,
+    string_remove_numbers,
+    string_remove_unicode,
+    string_replace_index,
     string_reverse_case,
     string_rotate,
-    strings_diff,
-    strings_longest_matching_block,
-    strings_matching_blocks,
-    strings_diff_opcodes,
     string_shorten,
+    string_split_multiple,
     string_split_on_lowercase,
     string_split_on_uppercase,
     string_split_without_empty,
+    string_to_bool,
+    string_to_hex,
+    strings_diff,
+    strings_diff_opcodes,
+    strings_longest_matching_block,
+    strings_matching_blocks,
+    strings_similarity,
     substrings,
-    text_to_leet_speak,
+    switch,
+    text_abbreviate,
+    text_ascii_characters,
+    text_consonant_count,
+    text_consonants,
     text_ensure_ends_with,
+    text_ensure_starts_with,
+    text_examples,
     text_join,
+    text_non_ascii_characters,
+    text_to_leet_speak,
+    text_vowel_count,
+    text_vowels,
     unicode_number_to_character,
+    unicode_to_ascii,
+    uppercase,
     uppercase_count,
     uppercase_first_letter,
     xor,
-    lowercase,
-    text_abbreviate,
-    string_has_multiple_consecutive_spaces,
-    uppercase,
-    string_split_multiple,
-    string_remove,
-    string_remove_from_start,
-    string_remove_from_end,
-    string_left_pad,
-    string_remove_numbers,
-    string_has_index,
-    string_add_to_start_of_each_line,
-    string_insert,
-    string_to_bool,
-    string_forms,
-    indefinite_article,
-    pluralize,
-    singularize,
-    text_ascii_characters,
-    text_non_ascii_characters,
-    string_remove_unicode,
-    string_is_palindrome,
-    string_remove_before,
-    string_remove_after,
-    string_common_prefix,
-    string_common_suffix,
-    text_examples,
-    character_examples,
-    switch,
-    text_vowels,
-    text_vowel_count,
-    text_consonants,
-    text_consonant_count,
-    string_is_yes,
-    string_is_no,
-    # string_words,
-    strings_similarity,
-    string_find_between,
-    string_remove_non_alpha_numeric_characters,
-    sentence_case,
-    string_remove_index,
-    string_replace_index,
-    unicode_to_ascii,
-    a10n,
-    cardinalize,
-    ordinalize,
-    is_plural,
-    is_singular,
-    text_ensure_starts_with,
-    string_chars_at_start,
 )
 from d8s_strings.strings import _handle_casing
 
@@ -859,13 +858,13 @@ def test_string_to_hex_1():
 
 
 def test_string_split_without_empty_1():
-    assert string_split_without_empty('https://tc.hightower.space/post/playbook-apps/array-iterator/', '/') == [
+    assert tuple(string_split_without_empty('https://tc.hightower.space/post/playbook-apps/array-iterator/', '/')) == (
         'https:',
         'tc.hightower.space',
         'post',
         'playbook-apps',
         'array-iterator',
-    ]
+    )
 
 
 def test_base64_encode_1():
@@ -1634,103 +1633,103 @@ def test_leet_speak_to_text():
 
 def test_string_split_on_uppercase_systematic():
     s = 'Abc'
-    assert string_split_on_uppercase(s) == ['bc']
+    assert tuple(string_split_on_uppercase(s)) == ('bc',)
 
     s = 'aBc'
-    assert string_split_on_uppercase(s) == ['a', 'c']
+    assert tuple(string_split_on_uppercase(s)) == ('a', 'c')
 
     s = 'abC'
-    assert string_split_on_uppercase(s) == ['ab']
+    assert tuple(string_split_on_uppercase(s)) == ('ab',)
 
     s = 'ABc'
-    assert string_split_on_uppercase(s) == ['c']
+    assert tuple(string_split_on_uppercase(s)) == ('c',)
 
     s = 'AbC'
-    assert string_split_on_uppercase(s) == ['b']
+    assert tuple(string_split_on_uppercase(s)) == ('b',)
 
     s = 'Abc'
-    assert string_split_on_uppercase(s, include_uppercase_characters=True) == ['Abc']
+    assert tuple(string_split_on_uppercase(s, include_uppercase_characters=True)) == ('Abc',)
 
     s = 'aBc'
-    assert string_split_on_uppercase(s, include_uppercase_characters=True) == ['a', 'Bc']
+    assert tuple(string_split_on_uppercase(s, include_uppercase_characters=True)) == ('a', 'Bc')
 
     s = 'abC'
-    assert string_split_on_uppercase(s, include_uppercase_characters=True) == ['ab', 'C']
+    assert tuple(string_split_on_uppercase(s, include_uppercase_characters=True)) == ('ab', 'C')
 
     s = 'ABc'
-    assert string_split_on_uppercase(s, include_uppercase_characters=True) == ['A', 'Bc']
+    assert tuple(string_split_on_uppercase(s, include_uppercase_characters=True)) == ('A', 'Bc')
 
     s = 'AbC'
-    assert string_split_on_uppercase(s, include_uppercase_characters=True) == ['Ab', 'C']
+    assert tuple(string_split_on_uppercase(s, include_uppercase_characters=True)) == ('Ab', 'C')
 
     s = 'ABc'
-    assert string_split_on_uppercase(s, include_uppercase_characters=True, split_acronyms=False) == ['ABc']
+    assert tuple(string_split_on_uppercase(s, include_uppercase_characters=True, split_acronyms=False)) == ('ABc',)
 
     s = 'AbC'
-    assert string_split_on_uppercase(s, include_uppercase_characters=True, split_acronyms=False) == ['Ab', 'C']
+    assert tuple(string_split_on_uppercase(s, include_uppercase_characters=True, split_acronyms=False)) == ('Ab', 'C')
 
     s = 'aBC'
-    assert string_split_on_uppercase(s, include_uppercase_characters=True, split_acronyms=False) == ['a', 'BC']
+    assert tuple(string_split_on_uppercase(s, include_uppercase_characters=True, split_acronyms=False)) == ('a', 'BC')
 
     with pytest.raises(ValueError):
         # try an invalid combination of kwargs
-        string_split_on_uppercase(s, include_uppercase_characters=False, split_acronyms=False) == ['a', 'BC']
+        tuple(string_split_on_uppercase(s, include_uppercase_characters=False, split_acronyms=False)) == ('a', 'BC')
 
 
 def test_string_split_on_uppercase_1():
     s = 'fooBarTest'
-    assert string_split_on_uppercase(s) == ['foo', 'ar', 'est']
+    assert tuple(string_split_on_uppercase(s)) == ('foo', 'ar', 'est')
 
     s = 'This is a test'
-    assert string_split_on_uppercase(s) == ['his is a test']
+    assert tuple(string_split_on_uppercase(s)) == ('his is a test',)
 
     s = 'This is a Test'
-    assert string_split_on_uppercase(s) == ['his is a ', 'est']
+    assert tuple(string_split_on_uppercase(s)) == ('his is a ', 'est')
 
     s = 'FoobaR'
-    assert string_split_on_uppercase(s) == ['ooba']
+    assert tuple(string_split_on_uppercase(s)) == ('ooba',)
 
 
 def test_string_split_on_uppercase_including_uppercase_characters():
     s = 'fooBarTest'
-    assert string_split_on_uppercase(s, include_uppercase_characters=True) == ['foo', 'Bar', 'Test']
+    assert tuple(string_split_on_uppercase(s, include_uppercase_characters=True)) == ('foo', 'Bar', 'Test')
 
     s = 'This is a test'
-    assert string_split_on_uppercase(s, include_uppercase_characters=True) == ['This is a test']
+    assert tuple(string_split_on_uppercase(s, include_uppercase_characters=True)) == ('This is a test',)
 
     s = 'This is a Test'
-    assert string_split_on_uppercase(s, include_uppercase_characters=True) == ['This is a ', 'Test']
+    assert tuple(string_split_on_uppercase(s, include_uppercase_characters=True)) == ('This is a ', 'Test')
 
     s = 'FoobaR'
-    assert string_split_on_uppercase(s, include_uppercase_characters=True) == ['Fooba', 'R']
+    assert tuple(string_split_on_uppercase(s, include_uppercase_characters=True)) == ('Fooba', 'R')
 
 
 def test_string_split_on_lowercase_1():
     s = 'FOObARtEST'
-    assert string_split_on_lowercase(s) == ['FOO', 'AR', 'EST']
+    assert tuple(string_split_on_lowercase(s)) == ('FOO', 'AR', 'EST')
 
     s = 'tHIS IS A TEST'
-    assert string_split_on_lowercase(s) == ['HIS IS A TEST']
+    assert tuple(string_split_on_lowercase(s)) == ('HIS IS A TEST',)
 
     s = 'tHIS IS A tEST'
-    assert string_split_on_lowercase(s) == ['HIS IS A ', 'EST']
+    assert tuple(string_split_on_lowercase(s)) == ('HIS IS A ', 'EST')
 
     s = 'fOOBAr'
-    assert string_split_on_lowercase(s) == ['OOBA']
+    assert tuple(string_split_on_lowercase(s)) == ('OOBA',)
 
 
 def test_string_split_on_lowercase_2():
     s = 'FOObARtEST'
-    assert string_split_on_lowercase(s, include_lowercase_characters=True) == ['FOO', 'bAR', 'tEST']
+    assert tuple(string_split_on_lowercase(s, include_lowercase_characters=True)) == ('FOO', 'bAR', 'tEST')
 
     s = 'tHIS IS A TEST'
-    assert string_split_on_lowercase(s, include_lowercase_characters=True) == ['tHIS IS A TEST']
+    assert tuple(string_split_on_lowercase(s, include_lowercase_characters=True)) == ('tHIS IS A TEST',)
 
     s = 'tHIS IS A tEST'
-    assert string_split_on_lowercase(s, include_lowercase_characters=True) == ['tHIS IS A ', 'tEST']
+    assert tuple(string_split_on_lowercase(s, include_lowercase_characters=True)) == ('tHIS IS A ', 'tEST')
 
     s = 'fOOBAr'
-    assert string_split_on_lowercase(s, include_lowercase_characters=True) == ['fOOBA', 'r']
+    assert tuple(string_split_on_lowercase(s, include_lowercase_characters=True)) == ('fOOBA', 'r')
 
 
 def test_string_reverse_case_1():

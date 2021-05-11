@@ -1,8 +1,10 @@
 import re
 import string
 import sys
-from typing import Any, Iterable, List, Tuple, Union
 import unicodedata
+from typing import Any, Iterable, List, Tuple, Union
+
+from d8s_lists import deduplicate, has_index, shortest, truthy_items
 
 # from textblob import TextBlob
 
@@ -223,9 +225,8 @@ def string_to_bool(string: str) -> bool:
 
 def text_examples(n=10):
     """Create n example texts."""
-    from hypothesis.strategies import text
-
     from d8s_hypothesis import hypothesis_get_strategy_results
+    from hypothesis.strategies import text
 
     return hypothesis_get_strategy_results(text, n=n)
 
@@ -239,9 +240,8 @@ def string_has_multiple_consecutive_spaces(string):
 
 def character_examples(n=10):
     """Create n example characters."""
-    from hypothesis.strategies import characters
-
     from d8s_hypothesis import hypothesis_get_strategy_results
+    from hypothesis.strategies import characters
 
     return hypothesis_get_strategy_results(characters, n=n)
 
@@ -404,8 +404,6 @@ def strings_diff_opcodes(a: str, b: str):
 
 def string_common_prefix(a: str, b: str) -> str:
     """Returns the common prefix string from left to right between a and b."""
-    from .strings_temp_utils import shortest
-
     common_prefix = ''
 
     for index in range(len(shortest([a, b]))):
@@ -519,8 +517,6 @@ def letter_frequency(letter, text):
 def string_entropy(text, ignore_case=False):
     """Find the shannon entropy of the text. Inspired by the algorithm here https://web.archive.org/web/20160320142455/https://deadhacker.com/2007/05/13/finding-entropy-in-binary-files/. You can see more here: https://en.wikipedia.org/wiki/Entropy_(information_theory)"""
     import math
-
-    from .strings_temp_utils import deduplicate
 
     if ignore_case:
         text = text.lower()
@@ -668,24 +664,17 @@ def string_shorten(input_string, length, suffix='...'):
 
 def string_split_without_empty(input_string, split_char):
     """Split a input_string on split_char and remove empty entries."""
-    from .strings_temp_utils import list_delete_empty_items
-
-    return list_delete_empty_items(input_string.split(split_char))
+    return truthy_items(input_string.split(split_char))
 
 
 def string_has_index(string: str, index: Union[str, int]) -> bool:
     """."""
-    from .strings_temp_utils import list_has_index
-
     string_characters = characters(string)
-    has_index = list_has_index(string_characters, index)
-    return has_index
+    return has_index(string_characters, index)
 
 
 def string_split_on_uppercase(input_string: str, include_uppercase_characters=False, split_acronyms=True):
     """Split the input_string on uppercase characters. If split_acronyms is False, the function will not split consecutive uppercase letters."""
-    from .strings_temp_utils import list_delete_empty_items
-
     if not split_acronyms and not include_uppercase_characters:
         message = 'If you set the `split_acronyms` to False when calling the `string_split_on_uppercase` function, you must also set the `include_uppercase_characters` (which you did not). The function will continue, but the `split_acronyms` argument will make no difference.'
         raise ValueError(message)
@@ -715,14 +704,12 @@ def string_split_on_uppercase(input_string: str, include_uppercase_characters=Fa
 
     split_string.append(input_string[last_uppercase_character_index:])
 
-    # we are using the list_delete_empty_items function b/c if include_uppercase_characters is False and the last character of the input_string is uppercase, an empty string will be erroneously included in the response from this function
-    return list_delete_empty_items(split_string)
+    # we are using the truthy_items function b/c if include_uppercase_characters is False and the last character of the input_string is uppercase, an empty string will be erroneously included in the response from this function
+    return truthy_items(split_string)
 
 
 def string_split_on_lowercase(input_string, include_lowercase_characters=False):
     """Split the string on lowercase characters."""
-    from .strings_temp_utils import list_delete_empty_items
-
     split_string = []
     last_lowercase_character_index = 0
 
@@ -740,7 +727,7 @@ def string_split_on_lowercase(input_string, include_lowercase_characters=False):
     split_string.append(input_string[last_lowercase_character_index:])
 
     # see the note from the string_split_on_uppercase function
-    return list_delete_empty_items(split_string)
+    return truthy_items(split_string)
 
 
 def string_split_multiple(string, *splitting_characters):
@@ -977,7 +964,7 @@ def leet_speak_to_text(leet_speak_text):
 
 def text_to_leet_speak(text):
     """."""
-    from .strings_temp_utils import dict_flip, dict_delistify_values
+    from .strings_temp_utils import dict_delistify_values, dict_flip
 
     conversion_dict = dict_flip(LEET_SPEAK_CONVERSIONS)
     conversion_dict = dict_delistify_values(conversion_dict)

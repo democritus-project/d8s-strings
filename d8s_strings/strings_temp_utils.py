@@ -1,42 +1,13 @@
 import functools
-from typing import Dict, Iterable, List, Any, Union
+from typing import Any, Dict, Iterable, List, Union
 
 PYTHON_TYPES_NOT_ALLOWED_AS_DICT_KEYS = (dict, list, set)
-
-
-def deduplicate(iterable: Iterable) -> list:
-    """Deduplicate the iterable."""
-    # TODO: will this work for every type except for dicts???
-    deduplicated_list = list(set(iterable))
-    return deduplicated_list
 
 
 def sort_by_length(list_arg: List[Any], **kwargs) -> List[Any]:
     """."""
     sorted_list = sorted(list_arg, key=lambda x: len(x), **kwargs)
     return sorted_list
-
-
-def shortest(list_arg: list) -> Any:
-    """."""
-    shortest_item = sort_by_length(list_arg)[0]
-    return shortest_item
-
-
-def list_has_index(list_: list, index: Union[str, int]):
-    """."""
-    index_int = int(index)
-    if index_int >= 0 and index_int <= len(list_) - 1:
-        return True
-    else:
-        return False
-
-
-def list_delete_empty_items(list_arg: list) -> list:
-    """Delete items from the list_arg is the item is an empty strings, empty list, zero, False or None."""
-    empty_values = ('', [], 0, False, None)
-    # TODO: not sure if this is the right way to implement this
-    return [i for i in list_arg if i not in empty_values]
 
 
 def number_evenly_divides(a, b):
