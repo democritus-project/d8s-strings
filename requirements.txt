@@ -6,3 +6,4 @@ importlib-metadata; python_version < '3.8'
 inflect
 more_itertools
 d8s-dicts==0.6.0
+d8s-math==0.6.0

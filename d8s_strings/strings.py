@@ -4,7 +4,9 @@ import sys
 import unicodedata
 from typing import Any, Iterable, List, Tuple, Union
 
+from d8s_dicts import dict_delistify_values, dict_flip
 from d8s_lists import deduplicate, has_index, shortest, truthy_items
+from d8s_math import number_evenly_divides, percent
 
 # from textblob import TextBlob
 
@@ -200,8 +202,6 @@ def _inflect_engine():
 
 def string_left_pad(string, length: int, *, padding_characters=' '):
     """Pad the given string with the given padding_characters such that the length of the resulting string is equal to the `length` argument. Adapted from the javascript code here: https://www.theregister.co.uk/2016/03/23/npm_left_pad_chaos/."""
-    from .strings_temp_utils import number_evenly_divides
-
     padding_length = length - len(string)
 
     if padding_length and not number_evenly_divides(len(padding_characters), padding_length):
@@ -453,8 +453,6 @@ def unicode_number_to_character(unicode_number):
 
 def hamming_distance(string_1, string_2, as_percent=False):
     """Return the number of positions at which corresponding symbols in string_1 and string_2 are different (this is known as the Hamming Distance). See https://en.wikipedia.org/wiki/Hamming_distance."""
-    from .strings_temp_utils import percent
-
     if len(string_1) != len(string_2):
         raise ValueError('The length of the two strings must be the same')
 
@@ -964,8 +962,6 @@ def leet_speak_to_text(leet_speak_text):
 
 def text_to_leet_speak(text):
     """."""
-    from .strings_temp_utils import dict_delistify_values, dict_flip
-
     conversion_dict = dict_flip(LEET_SPEAK_CONVERSIONS)
     conversion_dict = dict_delistify_values(conversion_dict)
     translated_text = ''
