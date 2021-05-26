@@ -49,6 +49,7 @@ from d8s_strings import (
     string_is_palindrome,
     string_is_yes,
     string_left_pad,
+    string_modify_line,
     string_remove,
     string_remove_after,
     string_remove_before,
@@ -95,6 +96,40 @@ from d8s_strings import (
     xor,
 )
 from d8s_strings.strings import _handle_casing
+
+TEST_STRING = '''a
+a
+b
+c'''
+
+
+def _string_modify_line_example_1(string: str) -> str:
+    return string.replace('a', 'z')
+
+
+@pytest.mark.parametrize(
+    "string,func,line_num,expected",
+    [
+        (TEST_STRING, _string_modify_line_example_1, 1, 'z\na\nb\nc'),
+        (TEST_STRING, _string_modify_line_example_1, 2, 'a\nz\nb\nc'),
+        (TEST_STRING, _string_modify_line_example_1, 3, TEST_STRING),
+    ],
+)
+def test_string_modify_line__docs_1(string, func, line_num, expected):
+    assert string_modify_line(string, func, line_num) == expected
+
+
+@pytest.mark.parametrize(
+    "string,func,line_num,expectation",
+    [
+        (TEST_STRING, _string_modify_line_example_1, -1, pytest.raises(ValueError)),
+        (TEST_STRING, _string_modify_line_example_1, 0, pytest.raises(ValueError)),
+        (TEST_STRING, _string_modify_line_example_1, 5, pytest.raises(IndexError)),
+    ],
+)
+def test_string_modify_line__failure_modes(string, func, line_num, expectation):
+    with expectation:
+        assert string_modify_line(string, func, line_num)
 
 
 def repeat_concurrently(n: int = 10):

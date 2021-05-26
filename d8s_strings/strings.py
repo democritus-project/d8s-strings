@@ -2,7 +2,7 @@ import re
 import string
 import sys
 import unicodedata
-from typing import Iterable, Union
+from typing import Callable, Iterable, Union
 
 from d8s_dicts import dict_delistify_values, dict_flip
 from d8s_lists import deduplicate, has_index, shortest, truthy_items
@@ -17,6 +17,20 @@ from d8s_math import number_evenly_divides, percent
 # TODO: write function to split a given string up into subparts of a given length
 
 NO_ISASCII_AVAILABLE = sys.version_info.major == 3 and sys.version_info.minor <= 6
+
+
+def string_modify_line(input_string: str, modifying_func: Callable[[str], str], line_num: int) -> str:
+    """Apply the modifying_func on the input_string at the given line_num."""
+    if line_num < 1:
+        raise ValueError(
+            'Please provide a line_num >= 1. The line number is NOT zero indexed - so a line_num of one specifies the first line of the text.'
+        )
+
+    updated_line_num = line_num - 1
+
+    lines = input_string.splitlines()
+    lines[updated_line_num] = modifying_func(lines[updated_line_num])
+    return '\n'.join(lines)
 
 
 def string_chars_at_start(string: str, chars: Iterable) -> Iterable[str]:
