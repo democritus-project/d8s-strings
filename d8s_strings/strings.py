@@ -1,5 +1,5 @@
 import re
-import string
+import string as string_module
 import sys
 import unicodedata
 from typing import Callable, Iterable, Union
@@ -23,7 +23,8 @@ def string_modify_line(input_string: str, modifying_func: Callable[[str], str], 
     """Apply the modifying_func on the input_string at the given line_num."""
     if line_num < 1:
         raise ValueError(
-            'Please provide a line_num >= 1. The line number is NOT zero indexed - so a line_num of one specifies the first line of the text.'
+            'Please provide a line_num >= 1. The line number is NOT zero indexed - so a line_num of one specifies the \
+                 first line of the text.'
         )
 
     updated_line_num = line_num - 1
@@ -118,7 +119,7 @@ def is_plural(possible_plural: str) -> bool:
     inflect_engine = _inflect_engine()
     pluralized_word = inflect_engine.plural(possible_plural)
     # for possible results from inflect_engine.compare, see https://github.com/jazzband/inflect/blob/master/inflect.py
-    result = inflect_engine.compare(possible_plural, pluralized_word)
+    result = str(inflect_engine.compare(possible_plural, pluralized_word))
     if ':' in result:
         first_char = result.split(':')[0]
         if first_char == 'p':
@@ -144,7 +145,7 @@ def is_singular(possible_singular: str) -> bool:
     inflect_engine = _inflect_engine()
     pluralized_word = inflect_engine.plural(possible_singular)
     # for possible results from inflect_engine.compare, see https://github.com/jazzband/inflect/blob/master/inflect.py
-    result = inflect_engine.compare(possible_singular, pluralized_word)
+    result = str(inflect_engine.compare(possible_singular, pluralized_word))
     if ':' in result:
         first_char = result.split(':')[0]
         if first_char == 's':
@@ -158,7 +159,7 @@ def singularize(word: str) -> str:
     if is_singular(word):
         return word
     else:
-        return inflect_engine.singular_noun(word)
+        return str(inflect_engine.singular_noun(word))
 
 
 def cardinalize(word: str, count: int) -> str:
@@ -171,7 +172,7 @@ def cardinalize(word: str, count: int) -> str:
         word = pluralize(word)
     # I know this is using the singular_noun function, but it will return either singular or plural nouns
     # based on the count argument
-    return inflect_engine.singular_noun(word, count=count)
+    return str(inflect_engine.singular_noun(word, count=count))
 
 
 def ordinalize(number: int) -> str:
@@ -221,11 +222,12 @@ def string_left_pad(string, length: int, *, padding_characters=' '):
 
     Adapted from the javascript code here: https://www.theregister.co.uk/2016/03/23/npm_left_pad_chaos/."""
     padding_length = length - len(string)
-
+    # pylint: disable=R1720
     if padding_length and not number_evenly_divides(len(padding_characters), padding_length):
-        message = f'The length of the padding_characters ({len(padding_characters)}) must evenly divide the desired length of the final string ({length}).'
+        message = f'The length of the padding_characters ({len(padding_characters)}) must evenly divide the desired \
+            length of the final string ({length}).'
         raise ValueError(message)
-    else:  # pylint: disable=R1720
+    else:
         padding_length = int(padding_length / len(padding_characters))
 
     left_padded_string = padding_characters * padding_length + string
@@ -259,9 +261,9 @@ def string_has_multiple_consecutive_spaces(string):
 def character_examples(n=10):
     """Create n example characters."""
     from d8s_hypothesis import hypothesis_get_strategy_results
-    from hypothesis.strategies import characters
+    from hypothesis.strategies import characters as chars
 
-    return hypothesis_get_strategy_results(characters, n=n)
+    return hypothesis_get_strategy_results(chars, n=n)
 
 
 def text_abbreviate(text):
@@ -297,15 +299,13 @@ def string_is_yes(string):
 
 def string_is_no(string):
     """Check if a string is some form of `n` or `no`."""
-    if lowercase(string) == 'n' or lowercase(string) == 'no':
-        return True
-    else:
-        return False
+    return lowercase(string) == 'n' or lowercase(string) == 'no'
 
 
 def xor(message, key):
     """."""
-    # credits for inspiration to https://stackoverflow.com/a/25475760 and https://en.wikipedia.org/wiki/XOR_cipher#Example_implementation
+    # credits for inspiration to
+    # https://stackoverflow.com/a/25475760 and https://en.wikipedia.org/wiki/XOR_cipher#Example_implementation
     from itertools import cycle
 
     if isinstance(message, str):
@@ -462,12 +462,14 @@ def character_to_unicode_number(character):
 
 
 def unicode_number_to_character(unicode_number):
-    """Convert the given unicode_number to it's unicode character form. This is the same as the `chr` function in python."""
+    """Convert the given unicode_number to it's unicode character form. This is the same as the `chr`
+    function in python."""
     return chr(unicode_number)
 
 
 def hamming_distance(string_1, string_2, as_percent=False):
-    """Return the number of positions at which corresponding symbols in string_1 and string_2 are different (this is known as the Hamming Distance). See https://en.wikipedia.org/wiki/Hamming_distance."""
+    """Return the number of positions at which corresponding symbols in string_1 and string_2 are different (this is
+    known as the Hamming Distance). See https://en.wikipedia.org/wiki/Hamming_distance."""
     if len(string_1) != len(string_2):
         raise ValueError('The length of the two strings must be the same')
 
@@ -484,7 +486,7 @@ def from_char_code(integer_list):
     return ''.join([chr(int(integer)) for integer in integer_list])
 
 
-def text_ascii_characters(text: str) -> Iterable[str]:
+def text_ascii_characters(text: str) -> Iterable[str]:  # noqa: CCR001
     """."""
     if NO_ISASCII_AVAILABLE:
         for char in text:
@@ -500,7 +502,7 @@ def text_ascii_characters(text: str) -> Iterable[str]:
                 yield char
 
 
-def text_non_ascii_characters(text: str) -> Iterable[str]:
+def text_non_ascii_characters(text: str) -> Iterable[str]:  # noqa: CCR001
     """."""
     if NO_ISASCII_AVAILABLE:
         for char in text:
@@ -519,7 +521,7 @@ def text_non_ascii_characters(text: str) -> Iterable[str]:
 # TODO: rename this function
 def letter_as_number(letter):
     """."""
-    return string.ascii_lowercase.index(lowercase(letter)) + 1
+    return string_module.ascii_lowercase.index(lowercase(letter)) + 1
 
 
 def letter_frequency(letter, text):
@@ -528,7 +530,9 @@ def letter_frequency(letter, text):
 
 
 def string_entropy(text, ignore_case=False):
-    """Find the shannon entropy of the text. Inspired by the algorithm here https://web.archive.org/web/20160320142455/https://deadhacker.com/2007/05/13/finding-entropy-in-binary-files/. You can see more here: https://en.wikipedia.org/wiki/Entropy_(information_theory)"""
+    """Find the shannon entropy of the text. Inspired by the algorithm here
+    https://web.archive.org/web/20160320142455/https://deadhacker.com/2007/05/13/finding-entropy-in-binary-files/.
+    You can see more here: https://en.wikipedia.org/wiki/Entropy_(information_theory)"""
     import math
 
     if ignore_case:
@@ -626,7 +630,8 @@ def string_in_iterable_fuzzy(input_string, iterable):
     return False
 
 
-# TODO: I'd like to improve this function to offer more granularity (e.g. offer a flag whether or not the match should be greedy)
+# TODO: I'd like to improve this function to offer more granularity
+# (e.g. offer a flag whether or not the match should be greedy)
 def string_find_between(input_string: str, start_string: str, end_string: str, *args):
     """Find the string in the input_string that is between the start_string and the end_string."""
     regex = f'{re.escape(start_string)}(.*){re.escape(end_string)}'
@@ -683,13 +688,19 @@ def string_split_without_empty(input_string, split_char):
 def string_has_index(string: str, index: Union[str, int]) -> bool:
     """."""
     string_characters = characters(string)
+    index = int(index)
     return has_index(string_characters, index)
 
 
-def string_split_on_uppercase(input_string: str, include_uppercase_characters=False, split_acronyms=True):
-    """Split the input_string on uppercase characters. If split_acronyms is False, the function will not split consecutive uppercase letters."""
+def string_split_on_uppercase(  # noqa: CCR001
+    input_string: str, include_uppercase_characters=False, split_acronyms=True
+):
+    """Split the input_string on uppercase characters. If split_acronyms is False, the function will not split
+    consecutive uppercase letters."""
     if not split_acronyms and not include_uppercase_characters:
-        message = 'If you set the `split_acronyms` to False when calling the `string_split_on_uppercase` function, you must also set the `include_uppercase_characters` (which you did not). The function will continue, but the `split_acronyms` argument will make no difference.'
+        message = 'If you set the `split_acronyms` to False when calling the `string_split_on_uppercase` function,\
+             you must also set the `include_uppercase_characters` (which you did not). The function will continue,\
+                  but the `split_acronyms` argument will make no difference.'
         raise ValueError(message)
 
     uppercase_char_array = [char.isupper() for char in input_string]
@@ -717,11 +728,12 @@ def string_split_on_uppercase(input_string: str, include_uppercase_characters=Fa
 
     split_string.append(input_string[last_uppercase_character_index:])
 
-    # we are using the truthy_items function b/c if include_uppercase_characters is False and the last character of the input_string is uppercase, an empty string will be erroneously included in the response from this function
+    # we are using the truthy_items function b/c if include_uppercase_characters is False and the last character of the
+    # input_string is uppercase, an empty string will be erroneously included in the response from this function
     return truthy_items(split_string)
 
 
-def string_split_on_lowercase(input_string, include_lowercase_characters=False):
+def string_split_on_lowercase(input_string, include_lowercase_characters=False):  # noqa: CCR001
     """Split the string on lowercase characters."""
     split_string = []
     last_lowercase_character_index = 0
@@ -864,9 +876,9 @@ def crazycase(text):
     new_text = ''
 
     for character in text:
-        if character in string.ascii_letters:
+        if character in string_module.ascii_letters:
             casing_options = (lowercase, uppercase)
-            casing_action = random.choice(casing_options)
+            casing_action = random.choice(casing_options)  # nosec
             character = casing_action(character)
         new_text += character
 
@@ -935,7 +947,7 @@ def _handle_casing(item, casing):
         )
         raise ValueError(message)
     if isinstance(item, (str, bytes)):
-        return eval('item.{}()'.format(casing))  # pylint: disable=W0123
+        return eval('item.{}()'.format(casing))  # nosec # pylint: disable=W0123
     else:
         print('! Democritus cannot yet {}-case an item of type {}'.format(casing, type(item)))
         return item
@@ -991,6 +1003,8 @@ def text_to_leet_speak(text):
 
 def unicode_to_ascii(text: str):
     """Convert the text to ascii."""
-    # credit to https://stackoverflow.com/questions/1207457/convert-a-unicode-string-to-a-string-in-python-containing-extra-symbols#1207479 for this one
+    # credit to
+    # https://stackoverflow.com/questions/1207457/convert-a-unicode-string-to-a-string-in-python-containing-extra-symbols#1207479
+    # for this one
     ascii_string = unicodedata.normalize('NFKD', text).encode('ascii', 'ignore').decode('ascii')
     return ascii_string
