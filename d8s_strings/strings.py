@@ -304,8 +304,9 @@ def string_is_no(string):
 
 def xor(message, key):
     """."""
-    # credits for inspiration to
-    # https://stackoverflow.com/a/25475760 and https://en.wikipedia.org/wiki/XOR_cipher#Example_implementation
+    # credits for inspiration to:
+    # https://stackoverflow.com/a/25475760 and
+    # https://en.wikipedia.org/wiki/XOR_cipher#Example_implementation
     from itertools import cycle
 
     if isinstance(message, str):
@@ -399,14 +400,14 @@ def strings_matching_blocks(a: str, b: str):
     # this function has to be run first so that the sequence_matcher.matching_blocks property is populated
     sequence_matcher.get_opcodes()
 
-    return sequence_matcher.matching_blocks
+    return sequence_matcher.matching_blocks  # type: ignore
 
 
 def strings_longest_matching_block(a: str, b: str):
     """Return the longest matching block in the string."""
     sequence_matcher = string_sequence_matcher(a, b)
 
-    return sequence_matcher.find_longest_match(0, len(sequence_matcher.a), 0, len(sequence_matcher.b))
+    return sequence_matcher.find_longest_match(0, len(sequence_matcher.a), 0, len(sequence_matcher.b))  # type: ignore
 
 
 # TODO: I think I want to singularize the strings_... functions
@@ -462,8 +463,9 @@ def character_to_unicode_number(character):
 
 
 def unicode_number_to_character(unicode_number):
-    """Convert the given unicode_number to it's unicode character form. This is the same as the `chr`
-    function in python."""
+    """Convert the given unicode_number to it's unicode character form.
+
+    This is the same as the `chr` function in python."""
     return chr(unicode_number)
 
 
@@ -530,8 +532,11 @@ def letter_frequency(letter, text):
 
 
 def string_entropy(text, ignore_case=False):
-    """Find the shannon entropy of the text. Inspired by the algorithm here
-    https://web.archive.org/web/20160320142455/https://deadhacker.com/2007/05/13/finding-entropy-in-binary-files/.
+    """Find the shannon entropy of the text.
+
+    Inspired by the algorithm here:
+    https://web.archive.org/web/20160320142455/https://deadhacker.com/2007/05/13/finding-entropy-in-binary-files/
+
     You can see more here: https://en.wikipedia.org/wiki/Entropy_(information_theory)"""
     import math
 
@@ -695,8 +700,9 @@ def string_has_index(string: str, index: Union[str, int]) -> bool:
 def string_split_on_uppercase(  # noqa: CCR001
     input_string: str, include_uppercase_characters=False, split_acronyms=True
 ):
-    """Split the input_string on uppercase characters. If split_acronyms is False, the function will not split
-    consecutive uppercase letters."""
+    """Split the input_string on uppercase characters.
+
+    If split_acronyms is False, the function will not split consecutive uppercase letters."""
     if not split_acronyms and not include_uppercase_characters:
         message = 'If you set the `split_acronyms` to False when calling the `string_split_on_uppercase` function,\
              you must also set the `include_uppercase_characters` (which you did not). The function will continue,\
