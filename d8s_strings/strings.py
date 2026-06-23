@@ -23,15 +23,15 @@ def string_modify_line(input_string: str, modifying_func: Callable[[str], str], 
     """Apply the modifying_func on the input_string at the given line_num."""
     if line_num < 1:
         raise ValueError(
-            'Please provide a line_num >= 1. The line number is NOT zero indexed - so a line_num of one specifies the \
-                 first line of the text.'
+            "Please provide a line_num >= 1. The line number is NOT zero indexed - so a line_num of one specifies the \
+                 first line of the text."
         )
 
     updated_line_num = line_num - 1
 
     lines = input_string.splitlines()
     lines[updated_line_num] = modifying_func(lines[updated_line_num])
-    return '\n'.join(lines)
+    return "\n".join(lines)
 
 
 def string_chars_at_start(string: str, chars: Iterable) -> Iterable[str]:
@@ -53,7 +53,7 @@ def a10n(string: str) -> str:
     if len(string) <= 3:
         return string
 
-    abbreviation = f'{string[0]}{len(string[1:-1])}{string[-1]}'
+    abbreviation = f"{string[0]}{len(string[1:-1])}{string[-1]}"
     return abbreviation
 
 
@@ -61,14 +61,14 @@ def string_remove_index(string: str, index: int) -> str:
     """Remove the item from the string at the given index."""
     string_list = list(string)
     del string_list[index]
-    return ''.join(string_list)
+    return "".join(string_list)
 
 
 def string_replace_index(string: str, index: int, replacement: str) -> str:
     """Replace the character in the string at the given index with the replacement."""
     string_list = list(string)
     string_list[index] = replacement
-    return ''.join(string_list)
+    return "".join(string_list)
 
 
 # def _string_blobify(string: str) -> TextBlob:
@@ -84,7 +84,7 @@ def string_replace_index(string: str, index: int, replacement: str) -> str:
 def string_remove_before(string: str, stop_string: str):
     """Remove everything from the start of the given string until the stop_string."""
     # we have to re-add the stop_string because otherwise it would not be included
-    return f'{stop_string}{string.split(stop_string, maxsplit=1)[-1]}'
+    return f"{stop_string}{string.split(stop_string, maxsplit=1)[-1]}"
 
 
 def string_remove_after(string: str, start_string: str):
@@ -110,7 +110,7 @@ def string_reverse(string: str) -> str:
 def indefinite_article(word):
     """Return the word with the appropriate indefinite article."""
     inflect_engine = _inflect_engine()
-    return inflect_engine.a(word).split(' ')[0]
+    return inflect_engine.a(word).split(" ")[0]
 
 
 def is_plural(possible_plural: str) -> bool:
@@ -120,9 +120,9 @@ def is_plural(possible_plural: str) -> bool:
     pluralized_word = inflect_engine.plural(possible_plural)
     # for possible results from inflect_engine.compare, see https://github.com/jazzband/inflect/blob/master/inflect.py
     result = str(inflect_engine.compare(possible_plural, pluralized_word))
-    if ':' in result:
-        first_char = result.split(':')[0]
-        if first_char == 'p':
+    if ":" in result:
+        first_char = result.split(":")[0]
+        if first_char == "p":
             plural = True
     return plural
 
@@ -146,9 +146,9 @@ def is_singular(possible_singular: str) -> bool:
     pluralized_word = inflect_engine.plural(possible_singular)
     # for possible results from inflect_engine.compare, see https://github.com/jazzband/inflect/blob/master/inflect.py
     result = str(inflect_engine.compare(possible_singular, pluralized_word))
-    if ':' in result:
-        first_char = result.split(':')[0]
-        if first_char == 's':
+    if ":" in result:
+        first_char = result.split(":")[0]
+        if first_char == "s":
             singular = True
     return singular
 
@@ -187,23 +187,23 @@ def string_forms(text):
     text = lowercase(text)
 
     forms = {
-        'lowercase': lowercase(text),
-        'titlecase': titlecase(text),
-        'uppercase': uppercase(text),
-        'lowercasePlural': lowercase(pluralize(text)),
-        'titlecasePlural': titlecase(pluralize(text)),
-        'uppercasePlural': uppercase(pluralize(text)),
-        'kebab_case': kebab_case(text),
-        'kebab_casePlural': kebab_case(pluralize(text)),
-        'snake_case': snake_case(text),
-        'snake_casePlural': snake_case(pluralize(text)),
-        'camel_case': camel_case(text),
-        'camel_casePlural': camel_case(pluralize(text)),
-        'pascal_case': pascal_case(text),
-        'pascal_casePlural': pascal_case(pluralize(text)),
-        'lowercaseIndefiniteArticle': lowercase(indefinite_article(text)),
-        'titlecaseIndefiniteArticle': titlecase(indefinite_article(text)),
-        'uppercaseIndefiniteArticle': uppercase(indefinite_article(text)),
+        "lowercase": lowercase(text),
+        "titlecase": titlecase(text),
+        "uppercase": uppercase(text),
+        "lowercasePlural": lowercase(pluralize(text)),
+        "titlecasePlural": titlecase(pluralize(text)),
+        "uppercasePlural": uppercase(pluralize(text)),
+        "kebab_case": kebab_case(text),
+        "kebab_casePlural": kebab_case(pluralize(text)),
+        "snake_case": snake_case(text),
+        "snake_casePlural": snake_case(pluralize(text)),
+        "camel_case": camel_case(text),
+        "camel_casePlural": camel_case(pluralize(text)),
+        "pascal_case": pascal_case(text),
+        "pascal_casePlural": pascal_case(pluralize(text)),
+        "lowercaseIndefiniteArticle": lowercase(indefinite_article(text)),
+        "titlecaseIndefiniteArticle": titlecase(indefinite_article(text)),
+        "uppercaseIndefiniteArticle": uppercase(indefinite_article(text)),
     }
 
     return forms
@@ -217,15 +217,15 @@ def _inflect_engine():
     return p
 
 
-def string_left_pad(string, length: int, *, padding_characters=' '):
+def string_left_pad(string, length: int, *, padding_characters=" "):
     """Pad the string with padding_characters such that the resulting string is the given length.
 
     Adapted from the javascript code here: https://www.theregister.co.uk/2016/03/23/npm_left_pad_chaos/."""
     padding_length = length - len(string)
     # pylint: disable=R1720
     if padding_length and not number_evenly_divides(len(padding_characters), padding_length):
-        message = f'The length of the padding_characters ({len(padding_characters)}) must evenly divide the desired \
-            length of the final string ({length}).'
+        message = f"The length of the padding_characters ({len(padding_characters)}) must evenly divide the desired \
+            length of the final string ({length})."
         raise ValueError(message)
     else:
         padding_length = int(padding_length / len(padding_characters))
@@ -237,7 +237,7 @@ def string_left_pad(string, length: int, *, padding_characters=' '):
 
 def string_to_bool(string: str) -> bool:
     """."""
-    if lowercase(string) == 'false':
+    if lowercase(string) == "false":
         return False
     else:
         return True
@@ -253,7 +253,7 @@ def text_examples(n=10):
 
 def string_has_multiple_consecutive_spaces(string):
     """Return True if the given string has multiple, consecutive spaces."""
-    pattern = '.*  +.*'
+    pattern = ".*  +.*"
     match_result = re.match(pattern, string)
     return bool(match_result)
 
@@ -268,38 +268,38 @@ def character_examples(n=10):
 
 def text_abbreviate(text):
     """Abbreviate the given text."""
-    if ' ' not in text:
+    if " " not in text:
         # split the word based on uppercased characters
         words = string_split_on_uppercase(text, include_uppercase_characters=True)
     else:
-        words = text.split(' ')
+        words = text.split(" ")
 
     first_letters_of_sufficiently_long_words = [word[0] for word in words if len(word) > 3]
-    return ''.join(first_letters_of_sufficiently_long_words).upper()
+    return "".join(first_letters_of_sufficiently_long_words).upper()
 
 
 def text_input_is_yes(message):
     """Get yes/no input from the user and return `True` if the input is yes and `False` if the input is no."""
-    message = text_ensure_ends_with(message.rstrip('.').rstrip('?'), ' (y/n)')
+    message = text_ensure_ends_with(message.rstrip(".").rstrip("?"), " (y/n)")
     result = input(message).strip()
     return string_is_yes(result)
 
 
 def text_input_is_no(message):
     """Get yes/no input from the user and return `True` if the input is no and `False` if the input is yes."""
-    message = text_ensure_ends_with(message.rstrip('.').rstrip('?'), ' (y/n)')
+    message = text_ensure_ends_with(message.rstrip(".").rstrip("?"), " (y/n)")
     result = input(message).strip()
     return string_is_no(result)
 
 
 def string_is_yes(string):
     """Check if a string is some form of `y` or `yes`."""
-    return bool(lowercase(string) == 'y' or lowercase(string) == 'yes')
+    return bool(lowercase(string) == "y" or lowercase(string) == "yes")
 
 
 def string_is_no(string):
     """Check if a string is some form of `n` or `no`."""
-    return lowercase(string) == 'n' or lowercase(string) == 'no'
+    return lowercase(string) == "n" or lowercase(string) == "no"
 
 
 def xor(message, key):
@@ -346,7 +346,7 @@ def base64_decode(input_string):
     """Base64 decode the string."""
     import base64
 
-    return bytes_decode_as_string(base64.b64decode(input_string), 'latin-1')
+    return bytes_decode_as_string(base64.b64decode(input_string), "latin-1")
 
 
 def string_sequence_matcher(string_a, string_b):
@@ -368,13 +368,13 @@ def strings_diff(string_a, string_b):
 
     d = difflib.Differ()
     diff = d.compare(string_a, string_b)
-    return '\n'.join(diff)
+    return "\n".join(diff)
 
 
 def string_add_to_start_of_each_line(string: str, string_to_add_to_each_line: str):
     """Add the given string_to_add_to_each_line to the beginning of each line in the string."""
-    replacement = f'\n{string_to_add_to_each_line}'
-    string_with_added_value = re.sub('\n', replacement, string)
+    replacement = f"\n{string_to_add_to_each_line}"
+    string_with_added_value = re.sub("\n", replacement, string)
     return string_with_added_value
 
 
@@ -420,7 +420,7 @@ def strings_diff_opcodes(a: str, b: str):
 
 def string_common_prefix(a: str, b: str) -> str:
     """Returns the common prefix string from left to right between a and b."""
-    common_prefix = ''
+    common_prefix = ""
 
     for index in range(len(shortest([a, b]))):
         if a[index] == b[index]:
@@ -443,16 +443,16 @@ def characters(input_string):
 
 def hex_to_string(hex_string):
     """Convert the given hex string to ascii."""
-    hex_string = hex_string.replace('0x', '').replace(',', '').replace(' ', '')
+    hex_string = hex_string.replace("0x", "").replace(",", "").replace(" ", "")
 
-    return bytes_decode_as_string(bytes.fromhex(hex_string), 'latin-1')
+    return bytes_decode_as_string(bytes.fromhex(hex_string), "latin-1")
 
 
-def string_to_hex(ascii_string: str, seperator='') -> str:
+def string_to_hex(ascii_string: str, seperator="") -> str:
     """Convert the given ascii string to hex."""
-    hex_string = ''
+    hex_string = ""
     for char in ascii_string:
-        hex_string += str(hex(character_to_unicode_number(char))).split('x')[-1] + seperator
+        hex_string += str(hex(character_to_unicode_number(char))).split("x")[-1] + seperator
     hex_string = hex_string.strip(seperator)
     return hex_string
 
@@ -473,7 +473,7 @@ def hamming_distance(string_1, string_2, as_percent=False):
     """Return the number of positions at which corresponding symbols in string_1 and string_2 are different (this is
     known as the Hamming Distance). See https://en.wikipedia.org/wiki/Hamming_distance."""
     if len(string_1) != len(string_2):
-        raise ValueError('The length of the two strings must be the same')
+        raise ValueError("The length of the two strings must be the same")
 
     distance = sum(el1 != el2 for el1, el2 in zip(string_1, string_2))
 
@@ -485,7 +485,7 @@ def hamming_distance(string_1, string_2, as_percent=False):
 
 def from_char_code(integer_list):
     """."""
-    return ''.join([chr(int(integer)) for integer in integer_list])
+    return "".join([chr(int(integer)) for integer in integer_list])
 
 
 def text_ascii_characters(text: str) -> Iterable[str]:  # noqa: CCR001
@@ -493,7 +493,7 @@ def text_ascii_characters(text: str) -> Iterable[str]:  # noqa: CCR001
     if NO_ISASCII_AVAILABLE:
         for char in text:
             try:
-                char.encode('ascii')
+                char.encode("ascii")
             except UnicodeEncodeError:
                 pass  # string is not ascii
             else:
@@ -509,7 +509,7 @@ def text_non_ascii_characters(text: str) -> Iterable[str]:  # noqa: CCR001
     if NO_ISASCII_AVAILABLE:
         for char in text:
             try:
-                char.encode('ascii')
+                char.encode("ascii")
             except UnicodeEncodeError:
                 yield char  # string is not ascii
             else:
@@ -574,28 +574,28 @@ def substrings(iterable):
 
 def string_remove_non_alpha_numeric_characters(string: str):
     """."""
-    pattern = r'[^a-zA-Z\d\s]'
+    pattern = r"[^a-zA-Z\d\s]"
     string_after_removal = string_remove(pattern, string)
     return string_after_removal
 
 
 def string_remove(regex_pattern, input_string, **kwargs):
     """Remove the regex_pattern from the input_string."""
-    string_after_removal = re.sub(regex_pattern, '', input_string, **kwargs)
+    string_after_removal = re.sub(regex_pattern, "", input_string, **kwargs)
     return string_after_removal
 
 
 def string_remove_unicode(string: str):
     """Remove all Unicode characters from the given string."""
     string_with_unicode_removed = bytes_decode_as_string(
-        string_encode_as_bytes(string, encoding='ascii', errors='ignore')
+        string_encode_as_bytes(string, encoding="ascii", errors="ignore")
     )
     return string_with_unicode_removed
 
 
-def string_remove_numbers(input_string: str, replacement: str = ' '):
+def string_remove_numbers(input_string: str, replacement: str = " "):
     """Remove all numbers from the input_strings."""
-    new_string_without_numbers = re.sub(r'\d+', replacement, input_string)
+    new_string_without_numbers = re.sub(r"\d+", replacement, input_string)
     return new_string_without_numbers
 
 
@@ -639,12 +639,12 @@ def string_in_iterable_fuzzy(input_string, iterable):
 # (e.g. offer a flag whether or not the match should be greedy)
 def string_find_between(input_string: str, start_string: str, end_string: str, *args):
     """Find the string in the input_string that is between the start_string and the end_string."""
-    regex = f'{re.escape(start_string)}(.*){re.escape(end_string)}'
+    regex = f"{re.escape(start_string)}(.*){re.escape(end_string)}"
     result = re.findall(regex, input_string, *args)
     if result:
         return result[0]
     else:
-        return ''
+        return ""
 
 
 def switch(a, b, text):
@@ -663,24 +663,24 @@ def switch(a, b, text):
     return text
 
 
-def string_encode_as_bytes(input_string, encoding='utf-8', **kwargs):
+def string_encode_as_bytes(input_string, encoding="utf-8", **kwargs):
     if isinstance(input_string, str):
         return input_string.encode(encoding, **kwargs)
     else:
         return input_string
 
 
-def bytes_decode_as_string(bytes_text, encoding='utf-8', **kwargs):
+def bytes_decode_as_string(bytes_text, encoding="utf-8", **kwargs):
     if isinstance(bytes_text, bytes):
         return bytes_text.decode(encoding, **kwargs)
     else:
         return bytes_text
 
 
-def string_shorten(input_string, length, suffix='...'):
+def string_shorten(input_string, length, suffix="..."):
     """Shorten the given input_string to the given length."""
     if len(input_string) > length:
-        return '{}{}'.format(input_string[: length - len(suffix)], suffix)
+        return "{}{}".format(input_string[: length - len(suffix)], suffix)
     else:
         return input_string
 
@@ -704,9 +704,9 @@ def string_split_on_uppercase(  # noqa: CCR001
 
     If split_acronyms is False, the function will not split consecutive uppercase letters."""
     if not split_acronyms and not include_uppercase_characters:
-        message = 'If you set the `split_acronyms` to False when calling the `string_split_on_uppercase` function,\
+        message = "If you set the `split_acronyms` to False when calling the `string_split_on_uppercase` function,\
              you must also set the `include_uppercase_characters` (which you did not). The function will continue,\
-                  but the `split_acronyms` argument will make no difference.'
+                  but the `split_acronyms` argument will make no difference."
         raise ValueError(message)
 
     uppercase_char_array = [char.isupper() for char in input_string]
@@ -794,14 +794,14 @@ def string_reverse_case(input_string):
         else:
             string_list.append(character)
 
-    return ''.join(string_list)
+    return "".join(string_list)
 
 
 def text_vowels(text):
     """Return all of the vowels in the text."""
     vowels = []
     for character in text:
-        if character in 'aeiou':
+        if character in "aeiou":
             vowels.append(character)
     return vowels
 
@@ -816,7 +816,7 @@ def text_consonants(text):
     """Return all of the consonants in the text."""
     consonants = []
     for character in text:
-        if character not in 'aeiou':
+        if character not in "aeiou":
             consonants.append(character)
     return consonants
 
@@ -827,10 +827,10 @@ def text_consonant_count(text):
     return len(consonants)
 
 
-def text_input(message='Enter/Paste your content.'):
+def text_input(message="Enter/Paste your content."):
     """."""
     # TODO: multiline support is nice, but it breaks jupyter notebooks
-    print('{} (<NEWLINE> + Ctrl-D or Ctrl-Z ( windows ) to save it)'.format(message))
+    print("{} (<NEWLINE> + Ctrl-D or Ctrl-Z ( windows ) to save it)".format(message))
     contents = []
     while True:
         try:
@@ -838,7 +838,7 @@ def text_input(message='Enter/Paste your content.'):
         except EOFError:
             break
         contents.append(line)
-    return '\n'.join(contents)
+    return "\n".join(contents)
 
 
 def text_ensure_starts_with(text: str, prefix: str):
@@ -846,7 +846,7 @@ def text_ensure_starts_with(text: str, prefix: str):
     if text.startswith(prefix):
         return text
     else:
-        return '{}{}'.format(prefix, text)
+        return "{}{}".format(prefix, text)
 
 
 def text_ensure_ends_with(text: str, suffix: str):
@@ -854,32 +854,32 @@ def text_ensure_ends_with(text: str, suffix: str):
     if text.endswith(suffix):
         return text
     else:
-        return '{}{}'.format(text, suffix)
+        return "{}{}".format(text, suffix)
 
 
 def titlecase(item):
-    return _handle_casing(item, 'title')
+    return _handle_casing(item, "title")
 
 
 def uppercase(item):
-    return _handle_casing(item, 'upper')
+    return _handle_casing(item, "upper")
 
 
 def uppercase_first_letter(text):
     """Make the first letter of the text uppercase."""
-    return '{}{}'.format(text[0].upper(), text[1:])
+    return "{}{}".format(text[0].upper(), text[1:])
 
 
 def lowercase_first_letter(text):
     """Make the first letter of the text lowercase."""
-    return '{}{}'.format(text[0].lower(), text[1:])
+    return "{}{}".format(text[0].lower(), text[1:])
 
 
 def crazycase(text):
     """Make the case of the characters in the given text pseudo-random"""
     import random
 
-    new_text = ''
+    new_text = ""
 
     for character in text:
         if character in string_module.ascii_letters:
@@ -893,35 +893,35 @@ def crazycase(text):
 
 def kebab_case(text):
     """Return the text with a "-" in place of every space."""
-    text = text.replace(' ', '-')
-    text = text.replace('_', '-')
+    text = text.replace(" ", "-")
+    text = text.replace("_", "-")
 
     return text
 
 
 def snake_case(text):
     """Return the text with a "_" in place of every space."""
-    text = text.replace(' ', '_')
-    text = text.replace('-', '_')
+    text = text.replace(" ", "_")
+    text = text.replace("-", "_")
 
     return text
 
 
 def camel_case(text: str):
     """Return the text with no spaces and every word (except the first one) capitalized."""
-    text = text.replace('-', ' ')
-    text = text.replace('_', ' ')
+    text = text.replace("-", " ")
+    text = text.replace("_", " ")
     text_list = [word.title() for word in text.split()]
     text_list[0] = text_list[0].lower()
 
-    return ''.join(text_list)
+    return "".join(text_list)
 
 
 def pascal_case(text: str):
     """Return the text with no spaces and every word capitalized."""
     text_list = [word.title() for word in text.split()]
 
-    return ''.join(text_list)
+    return "".join(text_list)
 
 
 def sentence_case(text: str):
@@ -941,21 +941,21 @@ def lowercase_count(text):
 
 
 def lowercase(item):
-    return _handle_casing(item, 'lower')
+    return _handle_casing(item, "lower")
 
 
 # TODO: we should be able to validate the values of the `casing` argument
 def _handle_casing(item, casing):
-    available_casing_types = ('lower', 'title', 'upper')
+    available_casing_types = ("lower", "title", "upper")
     if casing not in available_casing_types:
-        message = '! Invalid casing type given: {}\nAvailable casing types are: {}'.format(
+        message = "! Invalid casing type given: {}\nAvailable casing types are: {}".format(
             casing, available_casing_types
         )
         raise ValueError(message)
     if isinstance(item, (str, bytes)):
-        return eval('item.{}()'.format(casing))  # nosec # pylint: disable=W0123
+        return eval("item.{}()".format(casing))  # nosec # pylint: disable=W0123
     else:
-        print('! Democritus cannot yet {}-case an item of type {}'.format(casing, type(item)))
+        print("! Democritus cannot yet {}-case an item of type {}".format(casing, type(item)))
         return item
 
 
@@ -982,12 +982,12 @@ def string_rotate(text, rot=13):
 #     return False
 
 
-LEET_SPEAK_CONVERSIONS = {'1': 'i', '3': 'e', '4': 'a', '5': 's', '9': 'g', '0': 'o'}
+LEET_SPEAK_CONVERSIONS = {"1": "i", "3": "e", "4": "a", "5": "s", "9": "g", "0": "o"}
 
 
 def leet_speak_to_text(leet_speak_text):
     """."""
-    translated_text = ''
+    translated_text = ""
 
     for char in leet_speak_text:
         translated_text += LEET_SPEAK_CONVERSIONS.get(char, char)
@@ -999,7 +999,7 @@ def text_to_leet_speak(text):
     """."""
     conversion_dict = dict_flip(LEET_SPEAK_CONVERSIONS)
     conversion_dict = dict_delistify_values(conversion_dict)
-    translated_text = ''
+    translated_text = ""
 
     for char in text:
         translated_text += conversion_dict.get(char, char)
@@ -1012,5 +1012,5 @@ def unicode_to_ascii(text: str):
     # credit to
     # https://stackoverflow.com/questions/1207457/convert-a-unicode-string-to-a-string-in-python-containing-extra-symbols#1207479
     # for this one
-    ascii_string = unicodedata.normalize('NFKD', text).encode('ascii', 'ignore').decode('ascii')
+    ascii_string = unicodedata.normalize("NFKD", text).encode("ascii", "ignore").decode("ascii")
     return ascii_string
