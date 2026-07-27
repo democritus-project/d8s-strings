@@ -479,15 +479,15 @@ dev = [
 
 [[package]]
 name = "d8s-uuids"
-version = "0.6.0"
+version = "0.7.0"
 source = { registry = "https://pypi.org/simple" }
 dependencies = [
     { name = "d8s-hypothesis" },
     { name = "hypothesis" },
 ]
-sdist = { url = "https://files.pythonhosted.org/packages/c4/da/b10b5ce30cf9da9db1bbef89f3f320a4b94ad0ca4fa8aac81cc9cc84afa4/d8s_uuids-0.6.0.tar.gz", hash = "sha256:1bf9ff07dfe4b11c258dc7ef8c5008579872ee5a318bd1839eb73232fde20c68", size = 23179, upload-time = "2021-05-07T10:58:47.714Z" }
+sdist = { url = "https://files.pythonhosted.org/packages/fd/6c/33d8f23a207f77ae12a9c3b0e01e514c9fad842642139ce54429c0ddceb1/d8s_uuids-0.7.0.tar.gz", hash = "sha256:72f5dca0cf056b9bde6a3c0f7e5e47afb1126ae996599c7e049cfbe177a6b0e7", size = 89390, upload-time = "2026-07-01T12:07:26.026Z" }
 wheels = [
-    { url = "https://files.pythonhosted.org/packages/d9/93/7713481aca13fd7e4056edad921e29c996a1a455e21893b03a076bb50ab0/d8s_uuids-0.6.0-py2.py3-none-any.whl", hash = "sha256:8aa71fdf60dcdb26949643971734e25b5acfcb17e115bad345d9247b5855b7f5", size = 19372, upload-time = "2021-05-07T10:58:43.646Z" },
+    { url = "https://files.pythonhosted.org/packages/e8/0e/58e7f4e5676538a007ce626c54d5fa7ff9b0d0cec44724654d17d86cd7f7/d8s_uuids-0.7.0-py3-none-any.whl", hash = "sha256:9f829b8ab639e08b2ee88d20f43377fb1764f89d945f0b0347e9ba08642a8a4f", size = 18401, upload-time = "2026-07-01T12:07:24.904Z" },
 ]
 
 [[package]]
