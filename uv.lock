@@ -316,7 +316,7 @@ wheels = [
 
 [[package]]
 name = "d8s-dicts"
-version = "0.6.0"
+version = "0.7.0"
 source = { registry = "https://pypi.org/simple" }
 dependencies = [
     { name = "d8s-hypothesis" },
@@ -324,9 +324,9 @@ dependencies = [
     { name = "hypothesis" },
     { name = "more-itertools" },
 ]
-sdist = { url = "https://files.pythonhosted.org/packages/94/ab/0ca7a968f18fc3ef3aef7ff6d09367470483c185599e9b31b1fbf5ffde1a/d8s_dicts-0.6.0.tar.gz", hash = "sha256:7d70da66350a4d24451c74b062c2017743b34c06df6ef50050dab7d64b6a46c6", size = 29245, upload-time = "2021-05-07T10:53:13.786Z" }
+sdist = { url = "https://files.pythonhosted.org/packages/2d/81/ae1168e8bb0a0c52feda422f2837b7a59ab8afce0386b1272d70c19f85c0/d8s_dicts-0.7.0.tar.gz", hash = "sha256:9f8eef480dff446054443eb25615b6669efd4a77b40d2c556d6d3ed9f5796a1f", size = 94395, upload-time = "2026-07-01T12:04:58.619Z" }
 wheels = [
-    { url = "https://files.pythonhosted.org/packages/44/60/c02a1419fb4d2545522649532aad79d79c61487e9a650044b91505ad76e1/d8s_dicts-0.6.0-py2.py3-none-any.whl", hash = "sha256:54906ef88b5a2bc145a30f4317e8eca8b5b3182ec449562be83a347311c9572a", size = 24562, upload-time = "2021-05-07T10:53:11.642Z" },
+    { url = "https://files.pythonhosted.org/packages/50/4e/63a34eb570b968bff60a3ab2c33cc15a4cd3ee2a97456a43f3f4b77bd893/d8s_dicts-0.7.0-py3-none-any.whl", hash = "sha256:f8bcd5c2d64f9fc907986ada1d6cc28ddd427964ee71e2ce8059805d51bbc85b", size = 22194, upload-time = "2026-07-01T12:04:57.471Z" },
 ]
 
 [[package]]
